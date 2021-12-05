@@ -52,14 +52,14 @@ namespace OpenXML_Schedule_project
             this.lstAssignmentsBox.Name = "lstAssignmentsBox";
             this.lstAssignmentsBox.ScrollAlwaysVisible = true;
             this.lstAssignmentsBox.Size = new System.Drawing.Size(731, 244);
-            this.lstAssignmentsBox.TabIndex = 0;
+            this.lstAssignmentsBox.TabIndex = 4;
             // 
             // txtAssignment
             // 
             this.txtAssignment.Location = new System.Drawing.Point(357, 61);
             this.txtAssignment.Name = "txtAssignment";
             this.txtAssignment.Size = new System.Drawing.Size(400, 23);
-            this.txtAssignment.TabIndex = 2;
+            this.txtAssignment.TabIndex = 3;
             // 
             // dtpDueDate
             // 
@@ -67,7 +67,7 @@ namespace OpenXML_Schedule_project
             this.dtpDueDate.Location = new System.Drawing.Point(26, 61);
             this.dtpDueDate.Name = "dtpDueDate";
             this.dtpDueDate.Size = new System.Drawing.Size(119, 23);
-            this.dtpDueDate.TabIndex = 3;
+            this.dtpDueDate.TabIndex = 1;
             // 
             // lblClass
             // 
@@ -101,7 +101,7 @@ namespace OpenXML_Schedule_project
             this.btnAdd.Location = new System.Drawing.Point(26, 381);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(139, 46);
-            this.btnAdd.TabIndex = 7;
+            this.btnAdd.TabIndex = 5;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
@@ -111,7 +111,7 @@ namespace OpenXML_Schedule_project
             this.btnRemove.Location = new System.Drawing.Point(219, 381);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(139, 46);
-            this.btnRemove.TabIndex = 8;
+            this.btnRemove.TabIndex = 6;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -121,7 +121,7 @@ namespace OpenXML_Schedule_project
             this.btnBuild.Location = new System.Drawing.Point(427, 381);
             this.btnBuild.Name = "btnBuild";
             this.btnBuild.Size = new System.Drawing.Size(139, 46);
-            this.btnBuild.TabIndex = 9;
+            this.btnBuild.TabIndex = 7;
             this.btnBuild.Text = "Build";
             this.btnBuild.UseVisualStyleBackColor = false;
             this.btnBuild.Click += new System.EventHandler(this.btnBuild_Click);
@@ -131,7 +131,7 @@ namespace OpenXML_Schedule_project
             this.btnHelp.Location = new System.Drawing.Point(618, 381);
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(139, 46);
-            this.btnHelp.TabIndex = 10;
+            this.btnHelp.TabIndex = 8;
             this.btnHelp.Text = "Help";
             this.btnHelp.UseVisualStyleBackColor = true;
             this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
@@ -143,7 +143,7 @@ namespace OpenXML_Schedule_project
             this.cmbClass.Name = "cmbClass";
             this.cmbClass.Size = new System.Drawing.Size(200, 23);
             this.cmbClass.Sorted = true;
-            this.cmbClass.TabIndex = 11;
+            this.cmbClass.TabIndex = 2;
             // 
             // Form1
             // 

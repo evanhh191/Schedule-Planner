@@ -202,9 +202,6 @@ namespace OpenXML_Schedule_project
 
 
                 workbook.SaveAs(fileName);
-
-                MessageBox.Show("doc created");
-
             }
             catch (Exception ex)
             {
