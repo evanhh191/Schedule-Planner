@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using ClosedXML.Excel;
+using Microsoft.VisualBasic;
 
 namespace OpenXML_Schedule_project
 {
@@ -137,7 +138,8 @@ namespace OpenXML_Schedule_project
 
 
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
-                    "\nYour calendar will start at: " + schedule[0].Date.ToShortDateString() + "\n and end at: " + schedule[^1].Date.ToShortDateString() + "\n For a date range of: " + dateRange, "Build", MessageBoxButtons.YesNo);
+                    "\nYour calendar will start at: " + schedule[0].Date.ToShortDateString() + "\nand end at: " + schedule[^1].Date.ToShortDateString() 
+                        + "\nNumber of assignments: " + schedule.Count + "\nFor a date range of: " + dateRange, "Build", MessageBoxButtons.YesNo);
                 if (buildResult == DialogResult.No)
                 {
                 }
@@ -157,7 +159,7 @@ namespace OpenXML_Schedule_project
                         if (locationResult == DialogResult.OK)
                         {
                             BuildSpreadsheet(filename, dateRange);
-                            MessageBox.Show("A spreadsheet calendar has been created at: " + filename);
+                            MessageBox.Show("A spreadsheet calendar has been created at: " + filename); //still works even if BuildSpreadsheet catches an error when trying to save spreadsheet
                         }
                     }
                 }
@@ -170,7 +172,7 @@ namespace OpenXML_Schedule_project
 
         private void BuildSpreadsheet(string fileName, int dateRange) //builds the spreadsheet
         {
-            fileName += "\\SpreadsheetDocumentEx.xlsx";
+            fileName += "\\Schedule.xlsx";
             try
             {
                 IXLWorkbook workbook = new XLWorkbook();
