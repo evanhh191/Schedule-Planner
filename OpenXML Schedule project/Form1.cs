@@ -76,7 +76,7 @@ namespace OpenXML_Schedule_project
 
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
                     "\nYour calendar will start at: " + schedule[0].Date.ToShortDateString() + "\nand end at: " + schedule[^1].Date.ToShortDateString() 
-                        + "\nNumber of assignments: " + schedule.Count + "\nFor a date range of: " + dateRange, "Build", MessageBoxButtons.YesNo);
+                        + "\nNumber of assignments: " + schedule.Count + "\nFor a date range of: " + dateRange + " day(s)", "Build", MessageBoxButtons.YesNo);
                 if (buildResult == DialogResult.No)
                 {
                 }
