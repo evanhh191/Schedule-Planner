@@ -2,31 +2,17 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using ClosedXML.Excel;
-using Microsoft.VisualBasic;
 
 namespace OpenXML_Schedule_project
 {
     public partial class Form1 : Form
     {
-        /*class Assignment {
-            public string whichClass { get; set; }
-            public DateTime date { get; set; }
-            public string assignment { get; set; }
-
-            public Assignment(string aClass, DateTime aDate, string anAssignemt)
-            {
-                whichClass = aClass;
-                date = aDate;
-                assignment = anAssignemt;
-            }
-        };*/
         private readonly List<Assignment> schedule = new List<Assignment>();      //hidden list of Assignment class, used to store info and to make strings for displayed list(lstAssignments).
 
         public Form1()
         {
             InitializeComponent();
         }
-
 
         private void BtnAdd_Click(object sender, EventArgs e)    //adds the info from the class date and time fields to the list and resorts it, *****by date. will add class later*******
         {
@@ -48,40 +34,7 @@ namespace OpenXML_Schedule_project
                 }
                 txtAssignment.Clear();
             }
-
-
-
         }
-        /*Assignment newAssignment = new Assignment(cmbClass.Text, dtpDueDate.Value, txtAssignment.Text);
-
-        if (newAssignment.assignment == "" || newAssignment.whichClass == "")
-        {
-            MessageBox.Show("Please make sure to fill out the Class and Assignment fields", "Error");
-        }
-
-        else
-        {
-            schedule.Add(newAssignment);
-
-            if (!(cmbClass.Items.Contains(cmbClass.Text)))
-            {
-                cmbClass.Items.Add(cmbClass.Text);
-            }
-
-            schedule = schedule.OrderBy(x => x.whichClass).ThenBy(x => x.date).ToList();
-            string line;
-            lstAssignments.Items.Clear(); 
-            foreach (var plan in schedule)
-            {
-                line = (plan.whichClass.PadRight(26));
-                line += plan.date.ToString("MM/dd/yy").PadRight(15);
-                line += (plan.assignment.PadRight(55));
-
-                lstAssignments.Items.Add(line);
-            }
-            txtAssignment.Text = "";
-        }
-    }*/
 
         private void BtnRemove_Click(object sender, EventArgs e) //Removes selected item from list.
         {
@@ -98,22 +51,11 @@ namespace OpenXML_Schedule_project
                 {
                     lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
                 }
-
-                //schedule = schedule.OrderBy(x => x.whichClass).ThenBy(x => x.date).ToList();
-                /*string line;
-                lstAssignmentsBox.Items.Clear();
-                foreach (var plan in schedule)
-                {
-                    line = (plan.whichClass.PadRight(26));
-                    line += plan.date.ToString("MM/dd/yy").PadRight(15);
-                    line += (plan.assignment.PadRight(55));
-
-                    lstAssignmentsBox.Items.Add(line);
-                }*/
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: Please select an item on the list to remove.", ex.ToString()); //may as well use ex if we declare it
+                MessageBox.Show( "Error: Please select an item on the list to remove.");
+                Console.WriteLine(ex.ToString()); //may as well use ex if we declare it
             }
         }
 
@@ -130,12 +72,7 @@ namespace OpenXML_Schedule_project
         {                                                        //If they click yes, then it builds the excel file and exits the program. If no, the dialog closes.
             try
             {
-
-                /*DateTime min = schedule.Min(x => x.Date);
-                DateTime max = schedule.Max(x => x.Date);
-                int range = max.Subtract(min).Days + 1;*/
                 int dateRange = (schedule[^1].Date - schedule[0].Date).Days;
-
 
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
                     "\nYour calendar will start at: " + schedule[0].Date.ToShortDateString() + "\nand end at: " + schedule[^1].Date.ToShortDateString() 
@@ -159,14 +96,15 @@ namespace OpenXML_Schedule_project
                         if (locationResult == DialogResult.OK)
                         {
                             BuildSpreadsheet(filename, dateRange);
-                            MessageBox.Show("A spreadsheet calendar has been created at: " + filename); //still works even if BuildSpreadsheet catches an error when trying to save spreadsheet
+                            MessageBox.Show("A spreadsheet calendar has been created at: " + filename); //still pops up even if BuildSpreadsheet(...) catches an error when trying to save spreadsheet
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: Please ensure that there is at least one entry in the list", ex.ToString()); //using ex
+                MessageBox.Show( "Error: Please ensure that there is at least one entry in the list");
+                Console.WriteLine(ex.ToString()); 
             }
         }
 
@@ -207,7 +145,8 @@ namespace OpenXML_Schedule_project
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error:", ex.ToString());
+                MessageBox.Show("Error: File is likely open. See console logs for details");
+                Console.WriteLine(ex.ToString());
             }
 
         }
