@@ -29,7 +29,7 @@ namespace OpenXML_Schedule_project
         /// </summary>
         private void InitializeComponent()
         {
-            this.lstAssignments = new System.Windows.Forms.ListBox();
+            this.lstAssignmentsBox = new System.Windows.Forms.ListBox();
             this.txtAssignment = new System.Windows.Forms.TextBox();
             this.dtpDueDate = new System.Windows.Forms.DateTimePicker();
             this.lblClass = new System.Windows.Forms.Label();
@@ -43,17 +43,16 @@ namespace OpenXML_Schedule_project
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.SuspendLayout();
             // 
-            // lstAssignments
+            // lstAssignmentsBox
             // 
-            this.lstAssignments.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lstAssignments.FormattingEnabled = true;
-            this.lstAssignments.ItemHeight = 16;
-            this.lstAssignments.Location = new System.Drawing.Point(26, 100);
-            this.lstAssignments.Name = "lstAssignments";
-            this.lstAssignments.ScrollAlwaysVisible = true;
-            this.lstAssignments.Size = new System.Drawing.Size(731, 244);
-            this.lstAssignments.TabIndex = 0;
-            this.lstAssignments.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.lstAssignmentsBox.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lstAssignmentsBox.FormattingEnabled = true;
+            this.lstAssignmentsBox.ItemHeight = 16;
+            this.lstAssignmentsBox.Location = new System.Drawing.Point(26, 100);
+            this.lstAssignmentsBox.Name = "lstAssignmentsBox";
+            this.lstAssignmentsBox.ScrollAlwaysVisible = true;
+            this.lstAssignmentsBox.Size = new System.Drawing.Size(731, 244);
+            this.lstAssignmentsBox.TabIndex = 0;
             // 
             // txtAssignment
             // 
@@ -61,12 +60,11 @@ namespace OpenXML_Schedule_project
             this.txtAssignment.Name = "txtAssignment";
             this.txtAssignment.Size = new System.Drawing.Size(400, 23);
             this.txtAssignment.TabIndex = 2;
-            this.txtAssignment.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // dtpDueDate
             // 
             this.dtpDueDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDueDate.Location = new System.Drawing.Point(232, 61);
+            this.dtpDueDate.Location = new System.Drawing.Point(26, 61);
             this.dtpDueDate.Name = "dtpDueDate";
             this.dtpDueDate.Size = new System.Drawing.Size(119, 23);
             this.dtpDueDate.TabIndex = 3;
@@ -74,7 +72,7 @@ namespace OpenXML_Schedule_project
             // lblClass
             // 
             this.lblClass.AutoSize = true;
-            this.lblClass.Location = new System.Drawing.Point(26, 43);
+            this.lblClass.Location = new System.Drawing.Point(151, 43);
             this.lblClass.Name = "lblClass";
             this.lblClass.Size = new System.Drawing.Size(34, 15);
             this.lblClass.TabIndex = 4;
@@ -92,7 +90,7 @@ namespace OpenXML_Schedule_project
             // lblDueDate
             // 
             this.lblDueDate.AutoSize = true;
-            this.lblDueDate.Location = new System.Drawing.Point(232, 43);
+            this.lblDueDate.Location = new System.Drawing.Point(26, 43);
             this.lblDueDate.Name = "lblDueDate";
             this.lblDueDate.Size = new System.Drawing.Size(55, 15);
             this.lblDueDate.TabIndex = 6;
@@ -141,7 +139,7 @@ namespace OpenXML_Schedule_project
             // cmbClass
             // 
             this.cmbClass.FormattingEnabled = true;
-            this.cmbClass.Location = new System.Drawing.Point(26, 61);
+            this.cmbClass.Location = new System.Drawing.Point(151, 61);
             this.cmbClass.Name = "cmbClass";
             this.cmbClass.Size = new System.Drawing.Size(200, 23);
             this.cmbClass.Sorted = true;
@@ -162,10 +160,9 @@ namespace OpenXML_Schedule_project
             this.Controls.Add(this.lblClass);
             this.Controls.Add(this.dtpDueDate);
             this.Controls.Add(this.txtAssignment);
-            this.Controls.Add(this.lstAssignments);
+            this.Controls.Add(this.lstAssignmentsBox);
             this.Name = "Form1";
             this.Text = "Schedule Planner";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,7 +172,7 @@ namespace OpenXML_Schedule_project
 
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ListBox lstAssignments;
+        private System.Windows.Forms.ListBox lstAssignmentsBox;
         private System.Windows.Forms.TextBox txtAssignment;
         private System.Windows.Forms.DateTimePicker dtpDueDate;
         private System.Windows.Forms.Label lblClass;
