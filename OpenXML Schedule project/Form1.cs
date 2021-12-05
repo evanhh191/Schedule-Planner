@@ -14,7 +14,7 @@ namespace OpenXML_Schedule_project
             InitializeComponent();
         }
 
-        private void BtnAdd_Click(object sender, EventArgs e)    //adds the info from the class date and time fields to the list and resorts it, *****by date. will add class later*******
+        private void BtnAdd_Click(object sender, EventArgs e)    //adds the info from the date, class, and time fields to the list and resorts it by date then classCode
         {
             if (cmbClass.Text == "" || txtAssignment.Text == "") //more efficient than creating an object then checking
             {
@@ -26,7 +26,7 @@ namespace OpenXML_Schedule_project
                 {
                     cmbClass.Items.Add(cmbClass.Text);
                 }
-                schedule.Sort((a, b) => DateTime.Compare(a.Date, b.Date)); // less memory usage than creating another list to sort
+                schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
                 lstAssignmentsBox.Items.Clear();
                 foreach (var item in schedule)
                 {
@@ -44,7 +44,7 @@ namespace OpenXML_Schedule_project
                 selectedIndex = lstAssignmentsBox.SelectedIndex;
                 schedule.RemoveAt(selectedIndex);
 
-                schedule.Sort((a, b) => DateTime.Compare(a.Date, b.Date)); // less memory usage than creating another list to sort
+                schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage than creating another list to sort
 
                 lstAssignmentsBox.Items.Clear();
                 foreach (var item in schedule)
