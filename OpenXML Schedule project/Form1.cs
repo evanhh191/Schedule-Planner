@@ -54,7 +54,7 @@ namespace OpenXML_Schedule_project
             }
             catch (Exception ex)
             {
-                MessageBox.Show( "Please select an item on the list to remove.", "Error");
+                MessageBox.Show("Please select an item on the list to remove.", "Error");
                 Console.WriteLine(ex.ToString()); //may as well use ex if we declare it
             }
         }
@@ -103,7 +103,7 @@ namespace OpenXML_Schedule_project
             }
             catch (Exception ex)
             {
-                MessageBox.Show( "Please ensure that there is at least one entry in the list", "Error");
+                MessageBox.Show("Please ensure that there is at least one entry in the list", "Error");
                 Console.WriteLine(ex.ToString()); 
             }
         }
