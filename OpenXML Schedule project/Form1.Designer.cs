@@ -104,7 +104,7 @@ namespace OpenXML_Schedule_project
             this.btnAdd.TabIndex = 5;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
             // 
             // btnRemove
             // 
@@ -114,7 +114,7 @@ namespace OpenXML_Schedule_project
             this.btnRemove.TabIndex = 6;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
+            this.btnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
             // 
             // btnBuild
             // 
@@ -124,7 +124,7 @@ namespace OpenXML_Schedule_project
             this.btnBuild.TabIndex = 7;
             this.btnBuild.Text = "Build";
             this.btnBuild.UseVisualStyleBackColor = false;
-            this.btnBuild.Click += new System.EventHandler(this.btnBuild_Click);
+            this.btnBuild.Click += new System.EventHandler(this.BtnBuild_Click);
             // 
             // btnHelp
             // 
@@ -134,7 +134,7 @@ namespace OpenXML_Schedule_project
             this.btnHelp.TabIndex = 8;
             this.btnHelp.Text = "Help";
             this.btnHelp.UseVisualStyleBackColor = true;
-            this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+            this.btnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
             // 
             // cmbClass
             // 

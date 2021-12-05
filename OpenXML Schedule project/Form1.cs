@@ -27,7 +27,7 @@ namespace OpenXML_Schedule_project
         }
 
 
-        private void btnAdd_Click(object sender, EventArgs e)    //adds the info from the class date and time fields to the list and resorts it, *****by date. will add class later*******
+        private void BtnAdd_Click(object sender, EventArgs e)    //adds the info from the class date and time fields to the list and resorts it, *****by date. will add class later*******
         {
             if (cmbClass.Text == "" || txtAssignment.Text == "") //more efficient than creating an object then checking
             {
@@ -82,7 +82,7 @@ namespace OpenXML_Schedule_project
         }
     }*/
 
-        private void btnRemove_Click(object sender, EventArgs e) //Removes selected item from list.
+        private void BtnRemove_Click(object sender, EventArgs e) //Removes selected item from list.
         {
             try
             {
@@ -116,16 +116,16 @@ namespace OpenXML_Schedule_project
             }
         }
 
-        private void btnHelp_Click(object sender, EventArgs e)   // Display helpful information for user.
+        private void BtnHelp_Click(object sender, EventArgs e)   // Display helpful information for user.
         {
             MessageBox.Show("First you can choose a date using the Due Date button and enter your assigment in the Assignment box. " +
-                "\n Next enter the class name in the Class textbox.  You can reselect that class again later after adding an assignment to the list. " +
-                "\n When ready, you can click Add to add your assignment to the list. " +
-                "\n If you want to remove an item, click on the item in the list and click the remove button. " +
-                "\n When you have filled out the list with your assignments, click Build to generate your calender in Excel.", "Schedule Help");
+                "\n\nNext enter the class name in the Class textbox.  You can reselect that class again later after adding an assignment to the list. " +
+                "\n\nWhen ready, you can click Add to add your assignment to the list. " +
+                "\n\nIf you want to remove an item, click on the item in the list and click the remove button. " +
+                "\n\nWhen you have filled out the list with your assignments, click Build to generate your calender in Excel.", "Schedule Help");
         }
 
-        private void btnBuild_Click(object sender, EventArgs e)  //Once all asisgnments have been entered, this asks the user if they want to make the excel file with the entered information
+        private void BtnBuild_Click(object sender, EventArgs e)  //Once all asisgnments have been entered, this asks the user if they want to make the excel file with the entered information
         {                                                        //If they click yes, then it builds the excel file and exits the program. If no, the dialog closes.
             try
             {
@@ -164,7 +164,7 @@ namespace OpenXML_Schedule_project
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Please ensure that there is at least one entry in the list","Error");
+                MessageBox.Show("Error: Please ensure that there is at least one entry in the list", ex.ToString()); //using ex
             }
         }
 
