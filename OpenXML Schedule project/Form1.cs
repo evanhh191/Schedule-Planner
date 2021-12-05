@@ -8,26 +8,22 @@ namespace OpenXML_Schedule_project
     public partial class Form1 : Form
     {
         private readonly List<Assignment> schedule = new List<Assignment>();      //hidden list of Assignment class, used to store info and to make strings for displayed list(lstAssignments).
-
         public Form1()
         {
             InitializeComponent();
         }
-
         private void BtnAdd_Click(object sender, EventArgs e)    //adds the info from the date, class, and time fields to the list and resorts it by date then classCode
         {
             if (cmbClass.Text == "" || txtAssignment.Text == "") //more efficient than creating an object then checking
             {
                 MessageBox.Show("Please make sure to fill out the Class and Assignment fields", "Error");
-            } else
-            {
+            } else {
                 schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
-                if (!cmbClass.Items.Contains(cmbClass.Text))
-                {
-                    cmbClass.Items.Add(cmbClass.Text);
-                }
+                if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
+
                 schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
                 lstAssignmentsBox.Items.Clear();
+
                 foreach (var item in schedule)
                 {
                     lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55)); 
@@ -44,15 +40,14 @@ namespace OpenXML_Schedule_project
                 selectedIndex = lstAssignmentsBox.SelectedIndex;
                 schedule.RemoveAt(selectedIndex);
 
-                schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage than creating another list to sort
-
+                schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
                 lstAssignmentsBox.Items.Clear();
+
                 foreach (var item in schedule)
                 {
                     lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
                 }
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 MessageBox.Show("Please select an item on the list to remove.", "Error");
                 Console.WriteLine(ex.ToString()); //may as well use ex if we declare it
@@ -77,9 +72,7 @@ namespace OpenXML_Schedule_project
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
                     "\nYour calendar will start at: " + schedule[0].Date.ToShortDateString() + "\nand end at: " + schedule[^1].Date.ToShortDateString() 
                         + "\nNumber of assignments: " + schedule.Count + "\nFor a date range of: " + dateRange + " day(s)", "Build", MessageBoxButtons.YesNo);
-                if (buildResult == DialogResult.No)
-                {
-                }
+                if (buildResult == DialogResult.No){}
 
                 else if (buildResult == DialogResult.Yes)       // ** THIS IS WHERE THE SPREADSHEET BUILDING WILL HAPPEN **
                 {
@@ -100,8 +93,7 @@ namespace OpenXML_Schedule_project
                         }
                     }
                 }
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 MessageBox.Show("Please ensure that there is at least one entry in the list", "Error");
                 Console.WriteLine(ex.ToString()); 
@@ -119,7 +111,6 @@ namespace OpenXML_Schedule_project
                 IXLRange xLRange = worksheet1.Range(worksheet1.Cell(1, 1).Address, worksheet1.Cell(dateRange, 1).Address);
                 xLRange.SetDataType(XLDataType.DateTime);
 
-
                 for (int i = 0; i < schedule.Count; i++)
                 {
                     worksheet1.Cell(i + 1, 1).Value = schedule[i].Date.ToString("d");
@@ -127,7 +118,6 @@ namespace OpenXML_Schedule_project
                     worksheet1.Cell(i + 1, 2).Value = schedule[i].ClassCode;
                     worksheet1.Cell(i + 1, 3).Value = schedule[i].AssignmentName;
                 }
-
                 //testing formula stuff. will remove
                 /*for (int i = schedule.Count + 1; i < 16; i++)
                 {
@@ -135,20 +125,14 @@ namespace OpenXML_Schedule_project
                     worksheet1.Cells(currentCell).FormulaA1 = "=A" + (i - 1) + "+1";
                     worksheet1.Cell(currentCell).Style.NumberFormat.Format = "m/d/yyyy";
                 }*/ 
-
                 worksheet1.Columns().AdjustToContents();
                 worksheet1.Rows().AdjustToContents();
-
-
-
                 workbook.SaveAs(fileName);
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 MessageBox.Show("File is likely open. See console logs for details", "Error");
                 Console.WriteLine(ex.ToString());
             }
-
         }
     }
 }
