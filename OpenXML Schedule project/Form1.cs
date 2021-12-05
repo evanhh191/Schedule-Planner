@@ -67,11 +67,11 @@ namespace OpenXML_Schedule_project
         {                                                        //If they click yes, then it builds the excel file and exits the program. If no, the dialog closes.
             try
             {
-                int dateRange = (schedule[^1].Date - schedule[0].Date).Days;
+                int dateRange = schedule[^1].Date.Subtract(schedule[0].Date).Days +1; //Todo: Both of our methods return around 300 days once 12/4/2021 and 1/1/2022 are compared but work for all dates within the same year. might be formatting. see 
 
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
-                    "\nYour calendar will start at: " + schedule[0].Date.ToShortDateString() + "\nand end at: " + schedule[^1].Date.ToShortDateString() 
-                        + "\nNumber of assignments: " + schedule.Count + "\nFor a date range of: " + dateRange + " day(s)", "Build", MessageBoxButtons.YesNo);
+                    "\nYour calendar will range from: " + schedule[0].Date.ToShortDateString() + "to: " + schedule[^1].Date.ToShortDateString() 
+                         + "\nFor a date range of: " + dateRange + 1 + " day(s)" + "\nNumber of assignments: " + schedule.Count, "Build", MessageBoxButtons.YesNo);
                 if (buildResult == DialogResult.No){}
 
                 else if (buildResult == DialogResult.Yes)       // ** THIS IS WHERE THE SPREADSHEET BUILDING WILL HAPPEN **
