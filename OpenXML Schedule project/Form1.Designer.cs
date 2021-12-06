@@ -215,7 +215,6 @@ namespace OpenXML_Schedule_project
             this.MainMenuStrip = this.menFileUpload;
             this.Name = "Form1";
             this.Text = "Schedule Planner";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.menFileUpload.ResumeLayout(false);
             this.menFileUpload.PerformLayout();
             this.ResumeLayout(false);

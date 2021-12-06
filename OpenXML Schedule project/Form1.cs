@@ -208,16 +208,6 @@ namespace OpenXML_Schedule_project
                 lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
             }
         }
-      
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-        
-        private void uploadFromTextFileToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void mnuUploadText_Click(object sender, EventArgs e)
         {
