@@ -105,7 +105,7 @@ namespace OpenXML_Schedule_project
                 IXLWorksheet worksheet2 = workbook.Worksheets.Add("Calendar");
 
                 //prepping for data entry
-                worksheet1.Column(1).SetDataType(XLDataType.DateTime);                
+                worksheet1.Column(1).SetDataType(XLDataType.DateTime);
 
                 //styling
                 IXLRange headerRange1 = worksheet1.Range(worksheet1.Cell(1, 1).Address, worksheet1.Cell(1, 3).Address);
@@ -135,9 +135,14 @@ namespace OpenXML_Schedule_project
                 // Sort the filtered list
                 worksheet1.AutoFilter.Sort(1);
 
-                for (int i = 1; i <= 7; i++)
+                //day of week header
+                for (int i = 0; i < 7; i++)
                 {
-
+                    worksheet2.Range(worksheet2.Cell(1, 2 * i + 1), worksheet2.Cell(1, 2 * i + 2)).Merge().Style
+                        .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
+                        .Fill.SetBackgroundColor(XLColor.GoldenYellow)
+                        .Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                    worksheet2.Cell(1, 2 * i + 1).Value = (DayOfWeek)i;
                 }
 
 
@@ -152,6 +157,8 @@ namespace OpenXML_Schedule_project
                 //autofit
                 worksheet1.Columns().AdjustToContents();
                 worksheet1.Rows().AdjustToContents();
+                worksheet1.SheetView.FreezeRows(1);
+                worksheet2.SheetView.FreezeRows(1);
 
                 workbook.SaveAs(fileName);
             }
@@ -171,7 +178,7 @@ namespace OpenXML_Schedule_project
             printToList();
         }
 
-        private void txtAssignment_KeyPress(object sender, KeyPressEventArgs e) // If txtAssignment is focus, pressing Enter will attempt to add current info to list
+        private void TxtAssignment_KeyPress(object sender, KeyPressEventArgs e) // If txtAssignment is focus, pressing Enter will attempt to add current info to list
         {
             if (e.KeyChar == '\r')
             {

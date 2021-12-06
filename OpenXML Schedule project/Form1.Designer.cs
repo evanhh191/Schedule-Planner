@@ -66,7 +66,7 @@ namespace OpenXML_Schedule_project
             this.txtAssignment.Name = "txtAssignment";
             this.txtAssignment.Size = new System.Drawing.Size(400, 23);
             this.txtAssignment.TabIndex = 3;
-            this.txtAssignment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAssignment_KeyPress);
+            this.txtAssignment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtAssignment_KeyPress);
             // 
             // dtpDueDate
             // 
