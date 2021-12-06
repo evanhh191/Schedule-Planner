@@ -155,9 +155,9 @@ namespace OpenXML_Schedule_project
                 {
                     //(i/7) * 7 counts the number of weeks so far. ex day 6, which is a saturday, is week 0 because for ints, 6/7 = 0
                     int rowIncrementer = (i / 7) * 7;
-                    worksheet2.Range(worksheet2.Cell(2 + rowIncrementer, 2 * (i / 7) + 1), worksheet2.Cell(2 + rowIncrementer, 2 * (int)schedule[i].Date.DayOfWeek + 2)).Merge().Style
+                    worksheet2.Range(worksheet2.Cell(2 + rowIncrementer, 2 * (i%7) + 1), worksheet2.Cell(2 + rowIncrementer, 2 * (i%7) + 2)).Merge().Style
                         .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
-                        .Fill.SetBackgroundColor(XLColor.Green)
+                        .Fill.SetBackgroundColor(XLColor.LightGreen)
                         .Border.SetOutsideBorder(XLBorderStyleValues.Thin);
                 }
 
