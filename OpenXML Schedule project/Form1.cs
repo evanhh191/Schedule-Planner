@@ -112,9 +112,10 @@ namespace OpenXML_Schedule_project
             {
                 IXLWorkbook workbook = new XLWorkbook();
                 IXLWorksheet worksheet1 = workbook.Worksheets.Add("Assignments List");
+                IXLWorksheet worksheet2 = workbook.Worksheets.Add("Calendar");
 
                 //prepping for data entry
-                worksheet1.Column(1).SetDataType(XLDataType.DateTime);
+                worksheet1.Column(1).SetDataType(XLDataType.DateTime);                
 
                 //styling
                 IXLRange headerRange1 = worksheet1.Range(worksheet1.Cell(1, 1).Address, worksheet1.Cell(1, 3).Address);
@@ -143,6 +144,12 @@ namespace OpenXML_Schedule_project
                 worksheet1.RangeUsed().SetAutoFilter();
                 // Sort the filtered list
                 worksheet1.AutoFilter.Sort(1);
+
+                for (int i = 1; i <= 7; i++)
+                {
+
+                }
+
 
                 //testing formula stuff. will remove once formulas implemented on sheet 2
                 /*for (int i = schedule.Count + 1; i < 16; i++)
