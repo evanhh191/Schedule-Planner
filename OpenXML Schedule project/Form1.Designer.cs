@@ -186,7 +186,7 @@ namespace OpenXML_Schedule_project
             this.mnuUploadText.Name = "mnuUploadText";
             this.mnuUploadText.Size = new System.Drawing.Size(192, 22);
             this.mnuUploadText.Text = "Upload from Text File";
-            this.mnuUploadText.Click += new System.EventHandler(this.mnuUploadText_Click);
+            this.mnuUploadText.Click += new System.EventHandler(this.MnuUploadText_Click);
             // 
             // mnuUploadExcel
             // 
@@ -215,7 +215,6 @@ namespace OpenXML_Schedule_project
             this.MainMenuStrip = this.menFileUpload;
             this.Name = "Form1";
             this.Text = "Schedule Planner";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.menFileUpload.ResumeLayout(false);
             this.menFileUpload.PerformLayout();
             this.ResumeLayout(false);
@@ -225,8 +224,6 @@ namespace OpenXML_Schedule_project
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ListBox lstAssignmentsBox;
         private System.Windows.Forms.TextBox txtAssignment;
         private System.Windows.Forms.DateTimePicker dtpDueDate;

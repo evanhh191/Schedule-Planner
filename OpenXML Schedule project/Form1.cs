@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
-using ClosedXML.Excel;
 
 namespace OpenXML_Schedule_project
 {
@@ -26,7 +26,7 @@ namespace OpenXML_Schedule_project
                 schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
                 if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
 
-                printToList();
+                PrintToList();
                 txtAssignment.Clear();
                 txtAssignment.Focus();
             }
@@ -40,7 +40,7 @@ namespace OpenXML_Schedule_project
                 selectedIndex = lstAssignmentsBox.SelectedIndex;
                 schedule.RemoveAt(selectedIndex);
 
-                printToList();
+                PrintToList();
             }
             catch (Exception ex)
             {
@@ -155,14 +155,11 @@ namespace OpenXML_Schedule_project
                 {
                     //(i/7) * 7 counts the number of weeks so far. ex day 6, which is a saturday, is week 0 because for ints, 6/7 = 0
                     int rowIncrementer = (i / 7) * 7;
-                    worksheet2.Range(worksheet2.Cell(2 + rowIncrementer , 2 * (i/7) + 1), worksheet2.Cell(2 + rowIncrementer, 2 * (int)schedule[i].Date.DayOfWeek + 2)).Merge().Style
+                    worksheet2.Range(worksheet2.Cell(2 + rowIncrementer, 2 * (i / 7) + 1), worksheet2.Cell(2 + rowIncrementer, 2 * (int)schedule[i].Date.DayOfWeek + 2)).Merge().Style
                         .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
                         .Fill.SetBackgroundColor(XLColor.Green)
                         .Border.SetOutsideBorder(XLBorderStyleValues.Thin);
                 }
-                
-
-
 
                 //testing formula stuff. will remove once formulas implemented on sheet 2
                 /*for (int i = schedule.Count + 1; i < 16; i++)
@@ -189,14 +186,14 @@ namespace OpenXML_Schedule_project
                 Console.WriteLine(ex.ToString());
             }
         }
-        
+
         private void Button3_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 234; i++)
             {
                 schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test class code" + i, "test assingment name" + i));
             }
-            printToList();
+            PrintToList();
         }
 
         private void TxtAssignment_KeyPress(object sender, KeyPressEventArgs e) // If txtAssignment is focus, pressing Enter will attempt to add current info to list
@@ -212,14 +209,14 @@ namespace OpenXML_Schedule_project
                     schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
                     if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
 
-                    printToList();
+                    PrintToList();
                     txtAssignment.Clear();
                     txtAssignment.Focus();
                 }
             }
         }
 
-        private void printToList() //sorts list by date and then prints it.
+        private void PrintToList() //sorts list by date and then prints it.
         {
             schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
             lstAssignmentsBox.Items.Clear();
@@ -229,18 +226,8 @@ namespace OpenXML_Schedule_project
                 lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
             }
         }
-      
-        private void Form1_Load(object sender, EventArgs e)
-        {
 
-        }
-        
-        private void uploadFromTextFileToolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mnuUploadText_Click(object sender, EventArgs e)
+        private void MnuUploadText_Click(object sender, EventArgs e)
         {
             DialogResult textConfirmation = MessageBox.Show("To use this function the information must be stored in a similar format as the list (mm/dd/yyyy;class;assignnment;). " +
                 "\n\n Do you want to continue? ", "Upload from Text Files", MessageBoxButtons.YesNo);
@@ -275,7 +262,7 @@ namespace OpenXML_Schedule_project
                             }
                         }
 
-                        printToList();
+                        PrintToList();
                         MessageBox.Show("Assignments from text file uploaded successfully.");
                     }
                     catch (Exception ex)
