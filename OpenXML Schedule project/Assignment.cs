@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenXML_Schedule_project
 {
@@ -38,7 +36,6 @@ namespace OpenXML_Schedule_project
             set
             {
                 this._classCode = value;
-
             }
         }
 
@@ -53,7 +50,5 @@ namespace OpenXML_Schedule_project
                 this._assignmentName = value;
             }
         }
-
-
     }
 }
