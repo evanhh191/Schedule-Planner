@@ -1,23 +1,27 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ClosedXML.Excel;
 
 namespace OpenXML_Schedule_project
 {
     public partial class Form1 : Form
     {
         private readonly List<Assignment> schedule = new List<Assignment>();      //hidden list of Assignment class, used to store info and to make strings for displayed list(lstAssignments).
+
         public Form1()
         {
             InitializeComponent();
         }
+
         private void BtnAdd_Click(object sender, EventArgs e)    //adds the info from the date, class, and time fields to the list and resorts it by date then classCode
         {
             if (cmbClass.Text == "" || txtAssignment.Text == "") //more efficient than creating an object then checking
             {
                 MessageBox.Show("Please make sure to fill out the Class and Assignment fields", "Error");
-            } else {
+            }
+            else
+            {
                 schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
                 if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
 
@@ -26,7 +30,7 @@ namespace OpenXML_Schedule_project
 
                 foreach (var item in schedule)
                 {
-                    lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55)); 
+                    lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
                 }
                 txtAssignment.Clear();
             }
@@ -47,7 +51,8 @@ namespace OpenXML_Schedule_project
                 {
                     lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("Please select an item on the list to remove.", "Error");
                 Console.WriteLine(ex.ToString()); //may as well use ex if we declare it
@@ -68,16 +73,14 @@ namespace OpenXML_Schedule_project
             try
             {
                 //MessageBox.Show("day of the week for start day:" + (int)schedule[0].Date.DayOfWeek); //idle testing some things
-                int dateRange = (int)(schedule[^1].Date.ToOADate() - schedule[0].Date.ToOADate() +1) ; //converting to serialized date. Otherwise doesn't work. adding one to be inclusive of start date
+                int dateRange = (int)(schedule[^1].Date.ToOADate() - schedule[0].Date.ToOADate() + 1); //converting to serialized date. Otherwise doesn't work. adding one to be inclusive of start date
 
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
-                    "\nYour calendar will range from: " + schedule[0].Date.ToShortDateString() + "to: " + schedule[^1].Date.ToShortDateString() 
+                    "\nYour calendar will range from: " + schedule[0].Date.ToShortDateString() + "to: " + schedule[^1].Date.ToShortDateString()
                          + "\nFor a date range of: " + dateRange + " day(s)" + "\nNumber of assignments: " + schedule.Count, "Build", MessageBoxButtons.YesNo);
-                if (buildResult == DialogResult.No){}
-
+                if (buildResult == DialogResult.No) { }
                 else if (buildResult == DialogResult.Yes)       // ** THIS IS WHERE THE SPREADSHEET BUILDING WILL HAPPEN **
                 {
-
                     FolderBrowserDialog browserDialog = new FolderBrowserDialog();
                     string filename;
 
@@ -94,10 +97,11 @@ namespace OpenXML_Schedule_project
                         }
                     }
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("Please ensure that there is at least one entry in the list", "Error");
-                Console.WriteLine(ex.ToString()); 
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -120,26 +124,20 @@ namespace OpenXML_Schedule_project
                 headerRange1.Cells().Style.Border.OutsideBorderColor = XLColor.Black;
                 headerRange1.Cells().Style.Border.InsideBorderColor = XLColor.Black;
 
-
                 //changing header to text datatype
                 worksheet1.Cell(1, 1).SetDataType(XLDataType.Text);
-                worksheet1.Cell("A1").Value ="Due";
+                worksheet1.Cell("A1").Value = "Due";
                 worksheet1.Cell("B1").Value = "Class";
                 worksheet1.Cell("c1").Value = "Work";
 
                 //filling cells with assignments
                 for (int i = 0; i < schedule.Count; i++)
                 {
-
-                   worksheet1.Cell(i + 2, 1).Value = schedule[i].Date.ToString("d");
-                   worksheet1.Cell(i + 2, 1).Style.NumberFormat.Format = "d-mmm";
-                   worksheet1.Cell(i + 2, 2).Value = schedule[i].ClassCode;
-                   worksheet1.Cell(i + 2, 3).Value = schedule[i].AssignmentName;
+                    worksheet1.Cell(i + 2, 1).Value = schedule[i].Date.ToString("d");
+                    worksheet1.Cell(i + 2, 1).Style.NumberFormat.Format = "d-mmm";
+                    worksheet1.Cell(i + 2, 2).Value = schedule[i].ClassCode;
+                    worksheet1.Cell(i + 2, 3).Value = schedule[i].AssignmentName;
                 }
-
-
-
-
 
                 // Add filters
                 worksheet1.RangeUsed().SetAutoFilter();
@@ -159,8 +157,8 @@ namespace OpenXML_Schedule_project
                 worksheet1.Rows().AdjustToContents();
 
                 workbook.SaveAs(fileName);
-
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("File is likely open. See console logs for details", "Error");
                 Console.WriteLine(ex.ToString());
@@ -180,7 +178,6 @@ namespace OpenXML_Schedule_project
             {
                 lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
             }
-
         }
     }
 }
