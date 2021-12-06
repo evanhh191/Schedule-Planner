@@ -66,7 +66,7 @@ namespace OpenXML_Schedule_project
                 "\n\nNext enter the class name in the Class textbox.  You can reselect that class again later after adding an assignment to the list. " +
                 "\n\nWhen ready, you can click Add to add your assignment to the list. " +
                 "\n\nIf you want to remove an item, click on the item in the list and click the remove button. " +
-                "\n\nWhen you have filled out the list with your assignments, click Build to generate your calender in Excel.", "Schedule Help");
+                "\n\nWhen you have filled out the list with your assignments, click Build to choose a file location to generate your calender in Excel.", "Schedule Help");
         }
 
         private void BtnBuild_Click(object sender, EventArgs e)  //Once all asisgnments have been entered, this asks the user if they want to make the excel file with the entered information
