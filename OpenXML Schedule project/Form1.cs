@@ -85,7 +85,7 @@ namespace OpenXML_Schedule_project
                     {
                         filename = browserDialog.SelectedPath;
 
-                        DialogResult locationResult = MessageBox.Show("Save to: " + filename + " ?", "Build", MessageBoxButtons.OKCancel);
+                        DialogResult locationResult = MessageBox.Show("Please close spreadsheet if open. \nSave to: " + filename + " ?", "Build", MessageBoxButtons.OKCancel);
 
                         if (locationResult == DialogResult.OK)
                         {
