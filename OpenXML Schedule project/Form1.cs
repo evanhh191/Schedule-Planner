@@ -155,6 +155,24 @@ namespace OpenXML_Schedule_project
                         .Border.SetOutsideBorder(XLBorderStyleValues.Thick);
                     worksheet2.Cell(1, 2 * i + 1).Value = (DayOfWeek)i;
                 }
+                //Boolean previous = false;
+                //int previousDateRange = 0;
+                //int days = 0;
+                int max = dateRange;
+                //if (previous) days = previousDateRange;
+
+                max += (int)schedule[0].Date.DayOfWeek;
+                for (int i = (int)schedule[0].Date.DayOfWeek; i < max; i++)
+                {
+                    //(i/7) * 7 counts the number of weeks so far. ex day 6, which is a saturday, is week 0 because for ints, 6/7 = 0
+                    int rowIncrementer = (i / 7) * 7;
+                    worksheet2.Range(worksheet2.Cell(2 + rowIncrementer , 2 * (i/7) + 1), worksheet2.Cell(2 + rowIncrementer, 2 * (int)schedule[i].Date.DayOfWeek + 2)).Merge().Style
+                        .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
+                        .Fill.SetBackgroundColor(XLColor.Green)
+                        .Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                }
+                
+
 
 
                 //testing formula stuff. will remove once formulas implemented on sheet 2
@@ -168,6 +186,9 @@ namespace OpenXML_Schedule_project
                 //autofit
                 worksheet1.Columns().AdjustToContents();
                 worksheet1.Rows().AdjustToContents();
+                worksheet2.Columns().AdjustToContents();
+                worksheet2.Rows().AdjustToContents();
+
                 worksheet1.SheetView.FreezeRows(1);
                 worksheet2.SheetView.FreezeRows(1);
 
@@ -179,7 +200,7 @@ namespace OpenXML_Schedule_project
                 Console.WriteLine(ex.ToString());
             }
         }
-
+        
         private void Button3_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 234; i++)
