@@ -33,6 +33,7 @@ namespace OpenXML_Schedule_project
                     lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
                 }
                 txtAssignment.Clear();
+                txtAssignment.Focus();
             }
         }
 
