@@ -41,6 +41,7 @@ namespace OpenXML_Schedule_project
             this.btnHelp = new System.Windows.Forms.Button();
             this.cmbClass = new System.Windows.Forms.ComboBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lstAssignmentsBox
@@ -145,11 +146,22 @@ namespace OpenXML_Schedule_project
             this.cmbClass.Sorted = true;
             this.cmbClass.TabIndex = 2;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(78, 351);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "fill assignment list for testing";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.cmbClass);
             this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnBuild);
@@ -184,6 +196,7 @@ namespace OpenXML_Schedule_project
         private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.ComboBox cmbClass;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button button3;
     }
 }
 

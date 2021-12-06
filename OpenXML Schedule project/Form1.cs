@@ -67,11 +67,12 @@ namespace OpenXML_Schedule_project
         {                                                        //If they click yes, then it builds the excel file and exits the program. If no, the dialog closes.
             try
             {
-                int dateRange = schedule[^1].Date.Subtract(schedule[0].Date).Days +1; //Todo: Both of our methods return around 300 days once 12/4/2021 and 1/1/2022 are compared but work for all dates within the same year. might be formatting. see 
+                //MessageBox.Show("day of the week for start day:" + (int)schedule[0].Date.DayOfWeek); //idle testing some things
+                int dateRange = (int)(schedule[^1].Date.ToOADate() - schedule[0].Date.ToOADate() +1) ; //converting to serialized date. Otherwise doesn't work. adding one to be inclusive of start date
 
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
                     "\nYour calendar will range from: " + schedule[0].Date.ToShortDateString() + "to: " + schedule[^1].Date.ToShortDateString() 
-                         + "\nFor a date range of: " + dateRange + 1 + " day(s)" + "\nNumber of assignments: " + schedule.Count, "Build", MessageBoxButtons.YesNo);
+                         + "\nFor a date range of: " + dateRange + " day(s)" + "\nNumber of assignments: " + schedule.Count, "Build", MessageBoxButtons.YesNo);
                 if (buildResult == DialogResult.No){}
 
                 else if (buildResult == DialogResult.Yes)       // ** THIS IS WHERE THE SPREADSHEET BUILDING WILL HAPPEN **
@@ -108,31 +109,78 @@ namespace OpenXML_Schedule_project
                 IXLWorkbook workbook = new XLWorkbook();
                 IXLWorksheet worksheet1 = workbook.Worksheets.Add("Assignments List");
 
-                IXLRange xLRange = worksheet1.Range(worksheet1.Cell(1, 1).Address, worksheet1.Cell(dateRange, 1).Address);
-                xLRange.SetDataType(XLDataType.DateTime);
+                //prepping for data entry
+                worksheet1.Column(1).SetDataType(XLDataType.DateTime);
 
+                //styling
+                IXLRange headerRange1 = worksheet1.Range(worksheet1.Cell(1, 1).Address, worksheet1.Cell(1, 3).Address);
+                headerRange1.Cells().Style.Fill.SetBackgroundColor(XLColor.LightGray);
+                headerRange1.Cells().Style.Border.OutsideBorder = XLBorderStyleValues.Thin;
+                headerRange1.Cells().Style.Border.InsideBorder = XLBorderStyleValues.Thin;
+                headerRange1.Cells().Style.Border.OutsideBorderColor = XLColor.Black;
+                headerRange1.Cells().Style.Border.InsideBorderColor = XLColor.Black;
+
+
+                //changing header to text datatype
+                worksheet1.Cell(1, 1).SetDataType(XLDataType.Text);
+                worksheet1.Cell("A1").Value ="Due";
+                worksheet1.Cell("B1").Value = "Class";
+                worksheet1.Cell("c1").Value = "Work";
+
+                //filling cells with assignments
                 for (int i = 0; i < schedule.Count; i++)
                 {
-                    worksheet1.Cell(i + 1, 1).Value = schedule[i].Date.ToString("d");
-                    worksheet1.Cell(i + 1, 1).Style.NumberFormat.Format = "m/d/yyyy";
-                    worksheet1.Cell(i + 1, 2).Value = schedule[i].ClassCode;
-                    worksheet1.Cell(i + 1, 3).Value = schedule[i].AssignmentName;
+
+                   worksheet1.Cell(i + 2, 1).Value = schedule[i].Date.ToString("d");
+                   worksheet1.Cell(i + 2, 1).Style.NumberFormat.Format = "d-mmm";
+                   worksheet1.Cell(i + 2, 2).Value = schedule[i].ClassCode;
+                   worksheet1.Cell(i + 2, 3).Value = schedule[i].AssignmentName;
                 }
-                //testing formula stuff. will remove
+
+
+
+
+
+                // Add filters
+                worksheet1.RangeUsed().SetAutoFilter();
+                // Sort the filtered list
+                worksheet1.AutoFilter.Sort(1);
+
+                //testing formula stuff. will remove once formulas implemented on sheet 2
                 /*for (int i = schedule.Count + 1; i < 16; i++)
                 {
                     string currentCell = "A" + i;
                     worksheet1.Cells(currentCell).FormulaA1 = "=A" + (i - 1) + "+1";
                     worksheet1.Cell(currentCell).Style.NumberFormat.Format = "m/d/yyyy";
-                }*/ 
+                }*/
+
+                //autofit
                 worksheet1.Columns().AdjustToContents();
                 worksheet1.Rows().AdjustToContents();
+
                 workbook.SaveAs(fileName);
+
             } catch (Exception ex)
             {
                 MessageBox.Show("File is likely open. See console logs for details", "Error");
                 Console.WriteLine(ex.ToString());
             }
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < 234; i++)
+            {
+                schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test class code" + i, "test assingment name" + i));
+            }
+            schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
+            lstAssignmentsBox.Items.Clear();
+
+            foreach (var item in schedule)
+            {
+                lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
+            }
+
         }
     }
 }
