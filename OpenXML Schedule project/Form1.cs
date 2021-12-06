@@ -1,7 +1,8 @@
-﻿using ClosedXML.Excel;
-using System;
+﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using ClosedXML.Excel;
 
 namespace OpenXML_Schedule_project
 {
@@ -25,13 +26,7 @@ namespace OpenXML_Schedule_project
                 schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
                 if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
 
-                schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
-                lstAssignmentsBox.Items.Clear();
-
-                foreach (var item in schedule)
-                {
-                    lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
-                }
+                printToList();
                 txtAssignment.Clear();
                 txtAssignment.Focus();
             }
@@ -45,13 +40,7 @@ namespace OpenXML_Schedule_project
                 selectedIndex = lstAssignmentsBox.SelectedIndex;
                 schedule.RemoveAt(selectedIndex);
 
-                schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
-                lstAssignmentsBox.Items.Clear();
-
-                foreach (var item in schedule)
-                {
-                    lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
-                }
+                printToList();
             }
             catch (Exception ex)
             {
@@ -64,7 +53,7 @@ namespace OpenXML_Schedule_project
         {
             MessageBox.Show("First you can choose a date using the Due Date button and enter your assigment in the Assignment box. " +
                 "\n\nNext enter the class name in the Class textbox.  You can reselect that class again later after adding an assignment to the list. " +
-                "\n\nWhen ready, you can click Add to add your assignment to the list. " +
+                "\n\nWhen ready, you can click Add to add your assignment to the list or press enter after typing in the assignment. " +
                 "\n\nIf you want to remove an item, click on the item in the list and click the remove button. " +
                 "\n\nWhen you have filled out the list with your assignments, click Build to choose a file location to generate your calender in Excel.", "Schedule Help");
         }
@@ -207,13 +196,7 @@ namespace OpenXML_Schedule_project
             {
                 schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test class code" + i, "test assingment name" + i));
             }
-            schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
-            lstAssignmentsBox.Items.Clear();
-
-            foreach (var item in schedule)
-            {
-                lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
-            }
+            printToList();
         }
 
         private void TxtAssignment_KeyPress(object sender, KeyPressEventArgs e) // If txtAssignment is focus, pressing Enter will attempt to add current info to list
@@ -229,15 +212,77 @@ namespace OpenXML_Schedule_project
                     schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
                     if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
 
-                    schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
-                    lstAssignmentsBox.Items.Clear();
-
-                    foreach (var item in schedule)
-                    {
-                        lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
-                    }
+                    printToList();
                     txtAssignment.Clear();
                     txtAssignment.Focus();
+                }
+            }
+        }
+
+        private void printToList() //sorts list by date and then prints it.
+        {
+            schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
+            lstAssignmentsBox.Items.Clear();
+
+            foreach (var item in schedule)
+            {
+                lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
+            }
+        }
+      
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+        
+        private void uploadFromTextFileToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mnuUploadText_Click(object sender, EventArgs e)
+        {
+            DialogResult textConfirmation = MessageBox.Show("To use this function the information must be stored in a similar format as the list (mm/dd/yyyy;class;assignnment;). " +
+                "\n\n Do you want to continue? ", "Upload from Text Files", MessageBoxButtons.YesNo);
+
+            if (textConfirmation == DialogResult.Yes)
+            {
+                MessageBox.Show("Please select a file to upload from", "Upload from Text Files");
+
+                OpenFileDialog textFileOpen = new OpenFileDialog();
+                textFileOpen.Title = "Upload from Text Files";
+                textFileOpen.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                textFileOpen.InitialDirectory = @"C:\";
+
+                if (textFileOpen.ShowDialog() == DialogResult.OK)
+                {
+                    string FileName = textFileOpen.FileName;
+                    try
+                    {
+                        StreamReader inputText;
+                        string textContents;
+
+                        inputText = File.OpenText(FileName);
+
+                        while ((textContents = inputText.ReadLine()) != null)
+                        {
+                            string[] parts = textContents.Split(';');
+                            int i = 0;
+                            while (i < parts.Length - 1)
+                            {
+                                schedule.Add(new Assignment(DateTime.Parse(parts[i + 0].Trim()), parts[i + 1].Trim(), parts[i + 2].Trim()));
+                                i += 3;
+                            }
+                        }
+
+                        printToList();
+                        MessageBox.Show("Assignments from text file uploaded successfully.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid", "Error");
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
             }
         }
