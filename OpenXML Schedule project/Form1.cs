@@ -180,5 +180,31 @@ namespace OpenXML_Schedule_project
                 lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
             }
         }
+
+        private void txtAssignment_KeyPress(object sender, KeyPressEventArgs e) // If txtAssignment is focus, pressing Enter will attempt to add current info to list
+        {
+            if (e.KeyChar == '\r')
+            {
+                if (cmbClass.Text == "" || txtAssignment.Text == "") //more efficient than creating an object then checking
+                {
+                    MessageBox.Show("Please make sure to fill out the Class and Assignment fields", "Error");
+                }
+                else
+                {
+                    schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
+                    if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
+
+                    schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
+                    lstAssignmentsBox.Items.Clear();
+
+                    foreach (var item in schedule)
+                    {
+                        lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
+                    }
+                    txtAssignment.Clear();
+                    txtAssignment.Focus();
+                }
+            }
+        }
     }
 }
