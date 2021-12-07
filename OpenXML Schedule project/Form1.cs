@@ -244,12 +244,12 @@ namespace OpenXML_Schedule_project
 
         private void MnuUploadText_Click(object sender, EventArgs e)
         {
-            DialogResult textConfirmation = MessageBox.Show("To use this function the information must be stored in a similar format as the list (mm/dd/yyyy;class;assignnment;). " +
+            DialogResult textConfirmation = MessageBox.Show("To use this function the information must be stored in a similar format as the list (mm/dd/yyyy;class;assignnment;) in a text document. " +
                 "\n\n Do you want to continue? ", "Upload from Text Files", MessageBoxButtons.YesNo);
 
             if (textConfirmation == DialogResult.Yes)
             {
-                MessageBox.Show("Please select a file to upload from", "Upload from Text Files");
+                MessageBox.Show("Please select a text file to upload from", "Upload from Text Files");
 
                 OpenFileDialog textFileOpen = new OpenFileDialog();
                 textFileOpen.Title = "Upload from Text Files";
@@ -286,6 +286,22 @@ namespace OpenXML_Schedule_project
                         Console.WriteLine(ex.ToString());
                     }
                 }
+            }
+        }
+
+        private void mnuUploadExcel_Click(object sender, EventArgs e)
+        {
+            DialogResult spreadsheetConfirmation = MessageBox.Show("Data must be stored in a similar format as as a created schedule (e.g headers of Dates/Class/Assignment). " +
+                "\n\n Do you want to continue? ", "Upload from Excel Files", MessageBoxButtons.YesNo);
+
+            if(spreadsheetConfirmation == DialogResult.Yes)
+            {
+                MessageBox.Show("Please select an excel file to upload from", "Upload from Excel Files");
+
+                OpenFileDialog textFileOpen = new OpenFileDialog();
+                textFileOpen.Title = "Upload from Excel File";
+                textFileOpen.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                textFileOpen.InitialDirectory = @"C:\";
             }
         }
     }
