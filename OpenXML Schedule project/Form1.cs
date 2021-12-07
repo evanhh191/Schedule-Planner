@@ -209,7 +209,7 @@ namespace OpenXML_Schedule_project
         {
             for (int i = 0; i < 234; i++)
             {
-                schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test class code" + i, "test assingment name" + i));
+                schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test" + i%4, "test assignment name" + i));
             }
             PrintToList();
         }
