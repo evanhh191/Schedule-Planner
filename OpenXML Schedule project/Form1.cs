@@ -51,11 +51,14 @@ namespace OpenXML_Schedule_project
 
         private void BtnHelp_Click(object sender, EventArgs e)   // Display helpful information for user.
         {
-            MessageBox.Show("First you can choose a date using the Due Date button and enter your assigment in the Assignment box. " +
-                "\n\nNext enter the class name in the Class textbox.  You can reselect that class again later after adding an assignment to the list. " +
-                "\n\nWhen ready, you can click Add to add your assignment to the list or press enter after typing in the assignment. " +
-                "\n\nIf you want to remove an item, click on the item in the list and click the remove button. " +
-                "\n\nWhen you have filled out the list with your assignments, click Build to choose a file location to generate your calender in Excel.", "Schedule Help");
+            MessageBox.Show("First choose a date using the Due Date button and enter the assignment name in the Assignment box. " +
+                "\n\nNext enter the class name in the Class box. You can reselect that class again later after adding an assignment to the list. " +
+                "\n\nAlternatively, if you have a pre-existing text or Excel file that is formatted correctly you may use the menu in the upper left hand corner to" +
+                " upload data into the list. " +
+                "\n\nWhen ready, you can click Add to add your assignment to the list or press the Enter key after you finish typing in the assignment name. " +
+                "\n\nIf you want to remove an item, click on the assignment in the list and click the Remove button. " +
+                "\n\nWhen you have filled out the list with your assignments, click Build to choose a file location for the program to generate the calendar-containing" +
+                " Excel file. ", "Schedule Help");
         }
 
         private void BtnBuild_Click(object sender, EventArgs e)  //Once all asisgnments have been entered, this asks the user if they want to make the excel file with the entered information
@@ -243,13 +246,13 @@ namespace OpenXML_Schedule_project
 
                 if (textFileOpen.ShowDialog() == DialogResult.OK)
                 {
-                    string FileName = textFileOpen.FileName;
+                    string textFileName = textFileOpen.FileName;
                     try
                     {
                         StreamReader inputText;
                         string textContents;
 
-                        inputText = File.OpenText(FileName);
+                        inputText = File.OpenText(textFileName);
 
                         while ((textContents = inputText.ReadLine()) != null)
                         {
@@ -262,12 +265,13 @@ namespace OpenXML_Schedule_project
                             }
                         }
 
+                        inputText.Close();
                         PrintToList();
                         MessageBox.Show("Assignments from text file uploaded successfully.");
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid", "Error");
+                        MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid.", "Error");
                         Console.WriteLine(ex.ToString());
                     }
                 }
@@ -281,12 +285,43 @@ namespace OpenXML_Schedule_project
 
             if(spreadsheetConfirmation == DialogResult.Yes)
             {
-                MessageBox.Show("Please select an excel file to upload from", "Upload from Excel Files");
+                MessageBox.Show("Please select an Excel file to upload from", "Upload from Excel files");
 
-                OpenFileDialog textFileOpen = new OpenFileDialog();
-                textFileOpen.Title = "Upload from Excel File";
-                textFileOpen.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                textFileOpen.InitialDirectory = @"C:\";
+                OpenFileDialog excelFileOpen = new OpenFileDialog();
+                excelFileOpen.Title = "Upload from Excel file";
+                excelFileOpen.Filter = "xlsx files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+                excelFileOpen.InitialDirectory = @"C:\";
+
+                if (excelFileOpen.ShowDialog() == DialogResult.OK) 
+                {
+                    string excelFileName = excelFileOpen.FileName;      // ***This value is saved for later overwriting/updating***
+                    try 
+                    {
+                        IXLWorkbook sourceWbook = new XLWorkbook(excelFileName);
+                        var ws1 = sourceWbook.Worksheet("Assignments List");
+
+                        int lastRow = ws1.LastRowUsed().RowNumber();
+                        string classID, assignment;
+                        DateTime dueDate;
+
+                        for (int i = 0; i < lastRow - 1; i++)
+                        {                          
+                            dueDate = DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString());   
+                            classID = ws1.Cell(i+2 ,2).GetString();
+                            assignment = ws1.Cell(i+2, 3).GetString();
+
+                            schedule.Add(new Assignment(dueDate, classID, assignment));                       
+                        }
+                        PrintToList();
+                        MessageBox.Show("Assignments from excel file uploaded successfully.", "Upload from Excel files");
+                    }
+
+                    catch (Exception ex) 
+                    {
+                        MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid.", "Error");
+                        Console.WriteLine(ex.ToString());
+                    }
+                }
             }
         }
     }
