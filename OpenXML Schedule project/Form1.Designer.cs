@@ -42,6 +42,11 @@ namespace OpenXML_Schedule_project
             this.cmbClass = new System.Windows.Forms.ComboBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.button3 = new System.Windows.Forms.Button();
+            this.menFileUpload = new System.Windows.Forms.MenuStrip();
+            this.tsmFileUpload = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUploadText = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuUploadExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.menFileUpload.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstAssignmentsBox
@@ -61,6 +66,7 @@ namespace OpenXML_Schedule_project
             this.txtAssignment.Name = "txtAssignment";
             this.txtAssignment.Size = new System.Drawing.Size(400, 23);
             this.txtAssignment.TabIndex = 3;
+            this.txtAssignment.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtAssignment_KeyPress);
             // 
             // dtpDueDate
             // 
@@ -156,6 +162,39 @@ namespace OpenXML_Schedule_project
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.Button3_Click);
             // 
+            // menFileUpload
+            // 
+            this.menFileUpload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmFileUpload});
+            this.menFileUpload.Location = new System.Drawing.Point(0, 0);
+            this.menFileUpload.Name = "menFileUpload";
+            this.menFileUpload.Size = new System.Drawing.Size(800, 24);
+            this.menFileUpload.TabIndex = 10;
+            this.menFileUpload.Text = "menuStrip1";
+            // 
+            // tsmFileUpload
+            // 
+            this.tsmFileUpload.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuUploadText,
+            this.mnuUploadExcel});
+            this.tsmFileUpload.Name = "tsmFileUpload";
+            this.tsmFileUpload.Size = new System.Drawing.Size(78, 20);
+            this.tsmFileUpload.Text = "File Upload";
+            // 
+            // mnuUploadText
+            // 
+            this.mnuUploadText.Name = "mnuUploadText";
+            this.mnuUploadText.Size = new System.Drawing.Size(192, 22);
+            this.mnuUploadText.Text = "Upload from Text File";
+            this.mnuUploadText.Click += new System.EventHandler(this.MnuUploadText_Click);
+            // 
+            // mnuUploadExcel
+            // 
+            this.mnuUploadExcel.Name = "mnuUploadExcel";
+            this.mnuUploadExcel.Size = new System.Drawing.Size(192, 22);
+            this.mnuUploadExcel.Text = "Upload from Excel File";
+            this.mnuUploadExcel.Click += new System.EventHandler(this.MnuUploadExcel_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -173,8 +212,12 @@ namespace OpenXML_Schedule_project
             this.Controls.Add(this.dtpDueDate);
             this.Controls.Add(this.txtAssignment);
             this.Controls.Add(this.lstAssignmentsBox);
+            this.Controls.Add(this.menFileUpload);
+            this.MainMenuStrip = this.menFileUpload;
             this.Name = "Form1";
             this.Text = "Schedule Planner";
+            this.menFileUpload.ResumeLayout(false);
+            this.menFileUpload.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,8 +225,6 @@ namespace OpenXML_Schedule_project
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ListBox lstAssignmentsBox;
         private System.Windows.Forms.TextBox txtAssignment;
         private System.Windows.Forms.DateTimePicker dtpDueDate;
@@ -197,6 +238,10 @@ namespace OpenXML_Schedule_project
         private System.Windows.Forms.ComboBox cmbClass;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.MenuStrip menFileUpload;
+        private System.Windows.Forms.ToolStripMenuItem tsmFileUpload;
+        private System.Windows.Forms.ToolStripMenuItem mnuUploadText;
+        private System.Windows.Forms.ToolStripMenuItem mnuUploadExcel;
     }
 }
 
