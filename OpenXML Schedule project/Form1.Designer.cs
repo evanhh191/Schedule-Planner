@@ -193,7 +193,7 @@ namespace OpenXML_Schedule_project
             this.mnuUploadExcel.Name = "mnuUploadExcel";
             this.mnuUploadExcel.Size = new System.Drawing.Size(192, 22);
             this.mnuUploadExcel.Text = "Upload from Excel File";
-            this.mnuUploadExcel.Click += new System.EventHandler(this.mnuUploadExcel_Click);
+            this.mnuUploadExcel.Click += new System.EventHandler(this.MnuUploadExcel_Click);
             // 
             // Form1
             // 

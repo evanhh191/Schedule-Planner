@@ -200,7 +200,7 @@ namespace OpenXML_Schedule_project
             }
             catch (Exception ex)
             {
-                MessageBox.Show("File is likely open. See console logs for details", "Error");
+                MessageBox.Show("Build failed. File is likely open, but see console logs for details", "Error");
                 Console.WriteLine(ex.ToString());
             }
         }
@@ -254,10 +254,12 @@ namespace OpenXML_Schedule_project
             {
                 MessageBox.Show("Please select a text file to upload from", "Upload from Text Files");
 
-                OpenFileDialog textFileOpen = new OpenFileDialog();
-                textFileOpen.Title = "Upload from Text Files";
-                textFileOpen.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-                textFileOpen.InitialDirectory = @"C:\";
+                OpenFileDialog textFileOpen = new OpenFileDialog
+                {
+                    Title = "Upload from Text Files",
+                    Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
+                    InitialDirectory = @"C:\"
+                };
 
                 if (textFileOpen.ShowDialog() == DialogResult.OK)
                 {
@@ -293,45 +295,49 @@ namespace OpenXML_Schedule_project
             }
         }
 
-        private void mnuUploadExcel_Click(object sender, EventArgs e)
+        private void MnuUploadExcel_Click(object sender, EventArgs e)
         {
             DialogResult spreadsheetConfirmation = MessageBox.Show("Data must be stored in a similar format as as a created schedule (e.g headers of Dates/Class/Assignment). " +
                 "\n\n Do you want to continue? ", "Upload from Excel Files", MessageBoxButtons.YesNo);
 
-            if(spreadsheetConfirmation == DialogResult.Yes)
+            if (spreadsheetConfirmation == DialogResult.Yes)
             {
                 MessageBox.Show("Please select an Excel file to upload from", "Upload from Excel files");
 
-                OpenFileDialog excelFileOpen = new OpenFileDialog();
-                excelFileOpen.Title = "Upload from Excel file";
-                excelFileOpen.Filter = "xlsx files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
-                excelFileOpen.InitialDirectory = @"C:\";
+                OpenFileDialog excelFileOpen = new OpenFileDialog
+                {
+                    Title = "Upload from Excel file",
+                    Filter = "xlsx files (*.xlsx)|*.xlsx|All files (*.*)|*.*",
+                    InitialDirectory = @"C:\"
+                };
 
-                if (excelFileOpen.ShowDialog() == DialogResult.OK) 
+                if (excelFileOpen.ShowDialog() == DialogResult.OK)
                 {
                     string excelFileName = excelFileOpen.FileName;      // ***This value is saved for later overwriting/updating***
-                    try 
+                    try
                     {
                         IXLWorkbook sourceWbook = new XLWorkbook(excelFileName);
                         var ws1 = sourceWbook.Worksheet("Assignments List");
 
                         int lastRow = ws1.LastRowUsed().RowNumber();
-                        string classID, assignment;
-                        DateTime dueDate;
+                        //string classID, assignment;
+                        //DateTime dueDate;
 
                         for (int i = 0; i < lastRow - 1; i++)
-                        {                          
-                            dueDate = DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString());   
-                            classID = ws1.Cell(i+2 ,2).GetString();
-                            assignment = ws1.Cell(i+2, 3).GetString();
+                        {
+                            //dueDate = DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString());
+                            //classID = ws1.Cell(i + 2, 2).GetString();
+                            //assignment = ws1.Cell(i + 2, 3).GetString();
 
-                            schedule.Add(new Assignment(dueDate, classID, assignment));                       
+                            schedule.Add(new Assignment(
+                                DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString()),
+                                ws1.Cell(i + 2, 2).GetString(),
+                                ws1.Cell(i + 2, 3).GetString()));
                         }
                         PrintToList();
                         MessageBox.Show("Assignments from excel file uploaded successfully.", "Upload from Excel files");
                     }
-
-                    catch (Exception ex) 
+                    catch (Exception ex)
                     {
                         MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid.", "Error");
                         Console.WriteLine(ex.ToString());
