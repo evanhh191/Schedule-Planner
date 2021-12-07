@@ -104,8 +104,8 @@ namespace OpenXML_Schedule_project
             try
             {
                 IXLWorkbook workbook = new XLWorkbook();
-                IXLWorksheet worksheet1 = workbook.Worksheets.Add("Assignments List");
-                IXLWorksheet worksheet2 = workbook.Worksheets.Add("Calendar");
+                IXLWorksheet worksheet1 = workbook.Worksheets.Add("Sheet1");
+                IXLWorksheet worksheet2 = workbook.Worksheets.Add("Sheet2");
 
                 //prepping for data entry
                 worksheet1.Column(1).SetDataType(XLDataType.DateTime);
@@ -174,7 +174,7 @@ namespace OpenXML_Schedule_project
                         worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).Value = schedule[i - dow].Date;
                         first = false;
                     }
-                    else if (i / 7 < 1)
+                    else if (i / 7 < 1 || i / 7 == 1 && i % 7 != 0)
                     {
                         worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "=RC[-2]+1";
                     }
@@ -186,6 +186,8 @@ namespace OpenXML_Schedule_project
                     {
                         worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "=R[-7]C+7";
                     }
+                    //worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "{= IF(COUNTIF(Sheet1!R2C1: R112C1, R[-1]C) > 0, INDIRECT(CONCAT(\"Sheet1!B\", MATCH(R[-1]C, Sheet1!R2C1: R112C1, 0) + 1)), \"\")}";
+                    //worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 2).FormulaR1C1 = "=Sheet1!R[-1]C[-3]";
                 }
 
                 worksheet1.Columns().AdjustToContents();
@@ -195,7 +197,7 @@ namespace OpenXML_Schedule_project
 
                 worksheet1.SheetView.FreezeRows(1);
                 worksheet2.SheetView.FreezeRows(1);
-
+                worksheet2.RecalculateAllFormulas();
                 workbook.SaveAs(fileName);
             }
             catch (Exception ex)
@@ -209,7 +211,7 @@ namespace OpenXML_Schedule_project
         {
             for (int i = 0; i < 234; i++)
             {
-                schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test" + i%4, "test assignment name" + i));
+                schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test" + i % 4, "test assignment name" + i));
             }
             PrintToList();
         }
