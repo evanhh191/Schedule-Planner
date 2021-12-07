@@ -325,6 +325,9 @@ namespace OpenXML_Schedule_project
                         //string classID, assignment;
                         //DateTime dueDate;
 
+                        int uploadDateRange = (int)(ws1.Cell(lastRow, 1).GetDateTime().ToOADate() - ws1.Cell(2, 1).GetDateTime().ToOADate() + 1);
+                        MessageBox.Show("Range of this sheet is: " + uploadDateRange);
+
                         for (int i = 0; i < lastRow - 1; i++)
                         {
                             //dueDate = DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString());
