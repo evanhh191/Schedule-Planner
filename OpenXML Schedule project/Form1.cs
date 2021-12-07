@@ -326,7 +326,7 @@ namespace OpenXML_Schedule_project
                         //DateTime dueDate;
 
                         int uploadDateRange = (int)(ws1.Cell(lastRow, 1).GetDateTime().ToOADate() - ws1.Cell(2, 1).GetDateTime().ToOADate() + 1);
-                        MessageBox.Show("Range of this sheet is: " + uploadDateRange);
+                       // MessageBox.Show("Range of this sheet is: " + uploadDateRange);  **Mostly for testing, may remove later**
 
                         for (int i = 0; i < lastRow - 1; i++)
                         {
@@ -340,6 +340,7 @@ namespace OpenXML_Schedule_project
                                 ws1.Cell(i + 2, 3).GetString()));
                         }
                         PrintToList();
+                        sourceWbook.Dispose();
                         MessageBox.Show("Assignments from excel file uploaded successfully.", "Upload from Excel files");
                     }
                     catch (Exception ex)
