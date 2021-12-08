@@ -171,7 +171,7 @@ namespace OpenXML_Schedule_project
                         .NumberFormat.SetFormat("m/d");
                     if (first)
                     {
-                        worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).Value = schedule[i - dow].Date;
+                        worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).Value = schedule[i - dow].Date.ToShortDateString();
                         first = false;
                     }
                     else if (i / 7 < 1 || i / 7 == 1 && i % 7 != 0)
@@ -186,7 +186,7 @@ namespace OpenXML_Schedule_project
                     {
                         worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "=R[-7]C+7";
                     }
-                    //worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "{= IF(COUNTIF(Sheet1!R2C1: R112C1, R[-1]C) > 0, INDIRECT(CONCAT(\"Sheet1!B\", MATCH(R[-1]C, Sheet1!R2C1: R112C1, 0) + 1)), \"\")}";
+                    worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-1]C)";
                     //worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 2).FormulaR1C1 = "=Sheet1!R[-1]C[-3]";
                 }
 
@@ -209,7 +209,11 @@ namespace OpenXML_Schedule_project
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 234; i++)
+            for (int i = 0; i < 160; i++)
+            {
+                schedule.Add(new Assignment(DateTime.Now.AddDays(i%40), "Test" + i % 4, "test assignment name" + i));
+            }
+            for (int i = 160; i < 234; i++)
             {
                 schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test" + i % 4, "test assignment name" + i));
             }
