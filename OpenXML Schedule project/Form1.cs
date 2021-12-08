@@ -104,8 +104,8 @@ namespace OpenXML_Schedule_project
             try
             {
                 IXLWorkbook workbook = new XLWorkbook();
-                IXLWorksheet worksheet1 = workbook.Worksheets.Add("Assignments List");
-                IXLWorksheet worksheet2 = workbook.Worksheets.Add("Calendar");
+                IXLWorksheet worksheet1 = workbook.Worksheets.Add("Sheet1");
+                IXLWorksheet worksheet2 = workbook.Worksheets.Add("Sheet2");
 
                 //prepping for data entry
                 worksheet1.Column(1).SetDataType(XLDataType.DateTime);
@@ -171,10 +171,10 @@ namespace OpenXML_Schedule_project
                         .NumberFormat.SetFormat("m/d");
                     if (first)
                     {
-                        worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).Value = schedule[i - dow].Date;
+                        worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).Value = schedule[i - dow].Date.ToShortDateString();
                         first = false;
                     }
-                    else if (i / 7 < 1)
+                    else if (i / 7 < 1 || i / 7 == 1 && i % 7 != 0)
                     {
                         worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "=RC[-2]+1";
                     }
@@ -186,6 +186,8 @@ namespace OpenXML_Schedule_project
                     {
                         worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "=R[-7]C+7";
                     }
+                    worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-1]C)";
+                    //worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 2).FormulaR1C1 = "=Sheet1!R[-1]C[-3]";
                 }
 
                 worksheet1.Columns().AdjustToContents();
@@ -195,7 +197,7 @@ namespace OpenXML_Schedule_project
 
                 worksheet1.SheetView.FreezeRows(1);
                 worksheet2.SheetView.FreezeRows(1);
-
+                worksheet2.RecalculateAllFormulas();
                 workbook.SaveAs(fileName);
             }
             catch (Exception ex)
@@ -207,9 +209,13 @@ namespace OpenXML_Schedule_project
 
         private void Button3_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < 234; i++)
+            for (int i = 0; i < 160; i++)
             {
-                schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test class code" + i, "test assingment name" + i));
+                schedule.Add(new Assignment(DateTime.Now.AddDays(i%40), "Test" + i % 4, "test assignment name" + i));
+            }
+            for (int i = 160; i < 234; i++)
+            {
+                schedule.Add(new Assignment(DateTime.Now.AddDays(i), "Test" + i % 4, "test assignment name" + i));
             }
             PrintToList();
         }
@@ -323,6 +329,9 @@ namespace OpenXML_Schedule_project
                         //string classID, assignment;
                         //DateTime dueDate;
 
+                        int uploadDateRange = (int)(ws1.Cell(lastRow, 1).GetDateTime().ToOADate() - ws1.Cell(2, 1).GetDateTime().ToOADate() + 1);
+                       // MessageBox.Show("Range of this sheet is: " + uploadDateRange);  **Mostly for testing, may remove later**
+
                         for (int i = 0; i < lastRow - 1; i++)
                         {
                             //dueDate = DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString());
@@ -335,6 +344,7 @@ namespace OpenXML_Schedule_project
                                 ws1.Cell(i + 2, 3).GetString()));
                         }
                         PrintToList();
+                        sourceWbook.Dispose();
                         MessageBox.Show("Assignments from excel file uploaded successfully.", "Upload from Excel files");
                     }
                     catch (Exception ex)
