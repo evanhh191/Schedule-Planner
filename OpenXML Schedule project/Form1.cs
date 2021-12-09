@@ -292,6 +292,7 @@ namespace OpenXML_Schedule_project
                             while (i < parts.Length - 1)
                             {
                                 schedule.Add(new Assignment(DateTime.Parse(parts[i + 0].Trim()), parts[i + 1].Trim(), parts[i + 2].Trim()));
+                                if (!cmbClass.Items.Contains(parts[i + 1])) cmbClass.Items.Add(parts[i + 1]);
                                 i += 3;
                             }
                         }
@@ -339,6 +340,8 @@ namespace OpenXML_Schedule_project
                                 DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString()),
                                 ws1.Cell(i + 2, 2).GetString(),
                                 ws1.Cell(i + 2, 3).GetString()));
+
+                            if (!cmbClass.Items.Contains(ws1.Cell(i + 2, 2).GetString())) cmbClass.Items.Add(ws1.Cell(i + 2, 2).GetString());
                         }
                         PrintToList();
                         sourceWbook.Dispose();
