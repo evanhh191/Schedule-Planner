@@ -145,6 +145,8 @@ namespace OpenXML_Schedule_project
             // 
             // cmbClass
             // 
+            this.cmbClass.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.cmbClass.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cmbClass.FormattingEnabled = true;
             this.cmbClass.Location = new System.Drawing.Point(151, 61);
             this.cmbClass.Name = "cmbClass";

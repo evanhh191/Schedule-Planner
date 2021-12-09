@@ -10,7 +10,6 @@ namespace OpenXML_Schedule_project
     {
         private readonly List<Assignment> schedule = new List<Assignment>();      //hidden list of Assignment class, used to store info and to make strings for displayed list(lstAssignments).
 
-        //tod make textbox autofill from saved selection when typing
         public Form1()
         {
             InitializeComponent();
@@ -152,6 +151,7 @@ namespace OpenXML_Schedule_project
                 //int previousDateRange = 0;
                 //int days = 0;
                 int max = dateRange;
+                int formulaRange = schedule.Count;
                 //if (previous) days = previousDateRange;
 
                 max += (int)schedule[0].Date.DayOfWeek;
@@ -159,18 +159,33 @@ namespace OpenXML_Schedule_project
                 startCell.Value = schedule[0].Date.ToString("d");
                 Boolean first = true;
                 int dow = (int)schedule[0].Date.DayOfWeek;
+                int previous = 0;
 
                 for (int i = dow; i < max; i++)
                 {
                     //(i/7) * 7 counts the number of weeks so far. ex day 6, which is a saturday, is week 0 because for ints, 6/7 = 0
                     int rowIncrementer = (i / 7) * 7;
-                    var cellRange = worksheet2.Range(worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1), worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 2));
-                    cellRange.Merge().Style
+                    //green date header
+                    worksheet2.Range(worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1), worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 2))
+                        .Merge().Style
                         .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
                         .Fill.SetBackgroundColor(XLColor.LightGreen)
                         .Border.SetOutsideBorder(XLBorderStyleValues.Thin)
                         .NumberFormat.SetFormat("m/d");
+                    //blue background for assignments and class codes
+                    worksheet2.Range(worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 1), worksheet2.Cell(3 + rowIncrementer + 5, 2 * (i % 7) + 2))
+                        .Style.Fill.SetBackgroundColor(XLColor.FromArgb(221, 235, 247));
+                    //thick border outside entire day block
+                    worksheet2.Range(worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1), worksheet2.Cell(3 + rowIncrementer + 5, 2 * (i % 7) + 2))
+                        .Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                    //thin border to separate class codes and assignment names
+                    worksheet2.Range(worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 1), worksheet2.Cell(3 + rowIncrementer + 5, 2 * (i % 7) + 1))
+                        .Style.Border.SetRightBorder(XLBorderStyleValues.Thin);
                     var currentCell = worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1);
+                    if (i / 7 > previous)
+                    {
+                        previous = i / 7;
+                    }
                     if (first)
                     {
                         currentCell.Value = schedule[i - dow].Date.ToShortDateString();
@@ -190,13 +205,12 @@ namespace OpenXML_Schedule_project
                     }
                     for (int j = 0; j < 6; j++)
                     {
-                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).Style.Fill.SetBackgroundColor(XLColor.FromArgb(221, 235, 247));
-                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-" + (j + 1) + "]C)>" + j + ",INDEX(Sheet1!R2C1:Sheet1!R235C3,MATCH(R[-" + (j + 1) + "]C,Sheet1!R2C1:R235C1,0)+" + j + ",2),\"\")";
-                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 2).Style.Fill.SetBackgroundColor(XLColor.FromArgb(221, 235, 247));
-                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 2).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-" + (j + 1) + "]C[-1])>" + j + ",INDEX(Sheet1!R2C1:Sheet1!R235C3,MATCH(R[-" + (j + 1) + "]C[-1],Sheet1!R2C1:R235C1,0)+" + j + ",3),\"\")";
+                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (formulaRange + 1) + "C1,R[-" + (j + 1) + "]C)>" + j
+                            + ",INDEX(Sheet1!R2C1:Sheet1!R" + (formulaRange + 1) + "C3,MATCH(R[-" + (j + 1) + "]C,Sheet1!R2C1:R" + (formulaRange + 1) + "C1,0)+" + j + ",2),\"\")";
+                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 2).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (formulaRange + 1) + "C1,R[-" + (j + 1) + "]C[-1])>" + j
+                            + ",INDEX(Sheet1!R2C1:Sheet1!R" + (formulaRange + 1) + "C3,MATCH(R[-" + (j + 1) + "]C[-1],Sheet1!R2C1:R" + (formulaRange + 1) + "C1,0)+" + j + ",3),\"\")";
                     }
                 }
-
                 worksheet1.Columns().AdjustToContents();
                 worksheet1.Rows().AdjustToContents();
                 worksheet2.Columns().AdjustToContents();
@@ -204,7 +218,6 @@ namespace OpenXML_Schedule_project
 
                 worksheet1.SheetView.FreezeRows(1);
                 worksheet2.SheetView.FreezeRows(1);
-                worksheet2.RecalculateAllFormulas();
                 workbook.SaveAs(fileName);
             }
             catch (Exception ex)
