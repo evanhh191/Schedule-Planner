@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -34,17 +35,19 @@ namespace OpenXML_Schedule_project
 
         private void BtnRemove_Click(object sender, EventArgs e) //Removes selected item(s) from list.
         {
-            try
+            if (lstAssignmentsBox.SelectedItems.Count == 0) MessageBox.Show("Please select an item on the list to remove.\n", "Error");
+            else
             {
-                int selectedIndex = -1;
-                selectedIndex = lstAssignmentsBox.SelectedIndex;
-                schedule.RemoveAt(selectedIndex);
-
+                var indices = new List<int>();
+                foreach (var item in lstAssignmentsBox.SelectedItems)
+                {
+                    indices.Add(lstAssignmentsBox.Items.IndexOf(item));
+                }
+                for (int i = indices.Count - 1; i >= 0; i--)
+                {
+                    schedule.RemoveAt(indices[i]);
+                }
                 PrintToList();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Please select an item on the list to remove.\n", "Error");
             }
         }
 
@@ -62,7 +65,8 @@ namespace OpenXML_Schedule_project
 
         private void BtnBuild_Click(object sender, EventArgs e)  //Once all asisgnments have been entered, this asks the user if they want to make the excel file with the entered information
         {                                                        //If they click yes, then it builds the excel file and exits the program. If no, the dialog closes.
-            try
+            if (schedule.Count == 0) MessageBox.Show("Please ensure that there is at least one entry in the list", "Error");
+            else
             {
                 int dateRange = (int)(schedule[^1].Date.ToOADate() - schedule[0].Date.ToOADate() + 1); //converting to serialized date. Otherwise doesn't work. adding one to be inclusive of start date
 
@@ -80,7 +84,7 @@ namespace OpenXML_Schedule_project
                     {
                         fileName = browserDialog.SelectedPath;
 
-                        DialogResult locationResult = MessageBox.Show("Please close spreadsheet if open. \nSave to: " + fileName + " ?", "Build", MessageBoxButtons.OKCancel);
+                        DialogResult locationResult = MessageBox.Show("Please close spreadsheet if open. \n\n\nSave to: " + fileName + " ?", "Build", MessageBoxButtons.OKCancel);
 
                         if (locationResult == DialogResult.OK)
                         {
@@ -88,10 +92,6 @@ namespace OpenXML_Schedule_project
                         }
                     }
                 }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Please ensure that there is at least one entry in the list", "Error");
             }
         }
 
@@ -262,7 +262,7 @@ namespace OpenXML_Schedule_project
 
         private void MnuUploadText_Click(object sender, EventArgs e)
         {
-            DialogResult textConfirmation = MessageBox.Show("To use this function the information must be stored in a similar format as the list (mm/dd/yyyy;class;assignnment;) in a text document. " +
+            DialogResult textConfirmation = MessageBox.Show("To use this function, the information must be stored in a similar format as the list (mm/dd/yyyy;class;assignnment;) in a text document. " +
                 "\n\n Do you want to continue? ", "Upload from Text Files", MessageBoxButtons.YesNo);
 
             if (textConfirmation == DialogResult.Yes)

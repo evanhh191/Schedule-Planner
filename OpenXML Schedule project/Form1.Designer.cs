@@ -57,6 +57,7 @@ namespace OpenXML_Schedule_project
             this.lstAssignmentsBox.Location = new System.Drawing.Point(26, 100);
             this.lstAssignmentsBox.Name = "lstAssignmentsBox";
             this.lstAssignmentsBox.ScrollAlwaysVisible = true;
+            this.lstAssignmentsBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lstAssignmentsBox.Size = new System.Drawing.Size(731, 244);
             this.lstAssignmentsBox.TabIndex = 4;
             // 
