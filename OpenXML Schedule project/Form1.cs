@@ -8,7 +8,7 @@ namespace OpenXML_Schedule_project
 {
     public partial class Form1 : Form
     {
-        private readonly List<Assignment> schedule = new List<Assignment>();      //hidden list of Assignment class, used to store info and to make strings for displayed list(lstAssignments).
+        private readonly List<Assignment> schedule = new List<Assignment>();      //hidden list of Assignment class, used to store info and to make strings for displayed list
 
         public Form1()
         {
@@ -17,7 +17,7 @@ namespace OpenXML_Schedule_project
 
         private void BtnAdd_Click(object sender, EventArgs e)    //adds the info from the date, class, and time fields to the list and resorts it by date then classCode
         {
-            if (cmbClass.Text == "" || txtAssignment.Text == "") //more efficient than creating an object then checking
+            if (cmbClass.Text == "" || txtAssignment.Text == "")
             {
                 MessageBox.Show("Please make sure to fill out the Class and Assignment fields", "Error");
             }
@@ -32,7 +32,7 @@ namespace OpenXML_Schedule_project
             }
         }
 
-        private void BtnRemove_Click(object sender, EventArgs e) //Removes selected item from list.
+        private void BtnRemove_Click(object sender, EventArgs e) //Removes selected item(s) from list.
         {
             try
             {
@@ -42,10 +42,9 @@ namespace OpenXML_Schedule_project
 
                 PrintToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show("Please select an item on the list to remove.", "Error");
-                Console.WriteLine(ex.ToString()); //may as well use ex if we declare it
+                MessageBox.Show("Please select an item on the list to remove.\n", "Error");
             }
         }
 
@@ -65,36 +64,34 @@ namespace OpenXML_Schedule_project
         {                                                        //If they click yes, then it builds the excel file and exits the program. If no, the dialog closes.
             try
             {
-                //MessageBox.Show("day of the week for start day:" + (int)schedule[0].Date.DayOfWeek); //idle testing some things
                 int dateRange = (int)(schedule[^1].Date.ToOADate() - schedule[0].Date.ToOADate() + 1); //converting to serialized date. Otherwise doesn't work. adding one to be inclusive of start date
 
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
                     "\nYour calendar will range from: " + schedule[0].Date.ToShortDateString() + " to: " + schedule[^1].Date.ToShortDateString()
                          + "\nFor a date range of: " + dateRange + " day(s)" + "\nNumber of assignments: " + schedule.Count, "Build", MessageBoxButtons.YesNo);
+
                 if (buildResult == DialogResult.No) { }
                 else if (buildResult == DialogResult.Yes)       // ** THIS IS WHERE THE SPREADSHEET BUILDING WILL HAPPEN **
                 {
                     FolderBrowserDialog browserDialog = new FolderBrowserDialog();
-                    string filename;
+                    string fileName;
 
                     if (browserDialog.ShowDialog() == DialogResult.OK)
                     {
-                        filename = browserDialog.SelectedPath;
+                        fileName = browserDialog.SelectedPath;
 
-                        DialogResult locationResult = MessageBox.Show("Please close spreadsheet if open. \nSave to: " + filename + " ?", "Build", MessageBoxButtons.OKCancel);
+                        DialogResult locationResult = MessageBox.Show("Please close spreadsheet if open. \nSave to: " + fileName + " ?", "Build", MessageBoxButtons.OKCancel);
 
                         if (locationResult == DialogResult.OK)
                         {
-                            BuildSpreadsheet(filename, dateRange);
-                            MessageBox.Show("A spreadsheet calendar has been created at: " + filename); //still pops up even if BuildSpreadsheet(...) catches an error when trying to save spreadsheet
+                            BuildSpreadsheet(fileName, dateRange);
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Please ensure that there is at least one entry in the list", "Error");
-                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -143,25 +140,15 @@ namespace OpenXML_Schedule_project
                 {
                     worksheet2.Range(worksheet2.Cell(1, 2 * i + 1), worksheet2.Cell(1, 2 * i + 2)).Merge().Style
                         .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center)
-                        .Fill.SetBackgroundColor(XLColor.GoldenYellow)
+                        .Fill.SetBackgroundColor(XLColor.FromArgb(255, 230, 153))
                         .Border.SetOutsideBorder(XLBorderStyleValues.Thick);
                     worksheet2.Cell(1, 2 * i + 1).Value = (DayOfWeek)i;
                 }
-                //Boolean previous = false;
-                //int previousDateRange = 0;
-                //int days = 0;
-                int max = dateRange;
+
                 int formulaRange = schedule.Count;
-                //if (previous) days = previousDateRange;
-
-                max += (int)schedule[0].Date.DayOfWeek;
-                var startCell = worksheet2.Cell(2 + ((int)schedule[0].Date.DayOfWeek / 7) * 7, 2 * (((int)schedule[0].Date.DayOfWeek % 7) + 1));
-                startCell.Value = schedule[0].Date.ToString("d");
                 Boolean first = true;
-                int dow = (int)schedule[0].Date.DayOfWeek;
-                int previous = 0;
 
-                for (int i = dow; i < max; i++)
+                for (int i = (int)schedule[0].Date.DayOfWeek; i < dateRange + (int)schedule[0].Date.DayOfWeek; i++)
                 {
                     //(i/7) * 7 counts the number of weeks so far. ex day 6, which is a saturday, is week 0 because for ints, 6/7 = 0
                     int rowIncrementer = (i / 7) * 7;
@@ -182,31 +169,33 @@ namespace OpenXML_Schedule_project
                     worksheet2.Range(worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 1), worksheet2.Cell(3 + rowIncrementer + 5, 2 * (i % 7) + 1))
                         .Style.Border.SetRightBorder(XLBorderStyleValues.Thin);
                     var currentCell = worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1);
-                    if (i / 7 > previous)
-                    {
-                        previous = i / 7;
-                    }
+                    //first date that other dates are based off of
                     if (first)
                     {
-                        currentCell.Value = schedule[i - dow].Date.ToShortDateString();
+                        currentCell.Value = schedule[i - (int)schedule[0].Date.DayOfWeek].Date.ToShortDateString();
                         first = false;
                     }
+                    //dates for first and second weeks, aside from first days in week
                     else if (i / 7 < 1 || i / 7 == 1 && i % 7 != 0)
                     {
                         currentCell.FormulaR1C1 = "=RC[-2]+1";
                     }
+                    //date for first day of second week. needed if first day of first week starts in middle of week
                     else if (i / 7 == 1 && i % 7 == 0)
                     {
                         currentCell.FormulaR1C1 = "=R[-7]C[12] + 1";
                     }
+                    //dates for every day after the first two weeks
                     else
                     {
                         currentCell.FormulaR1C1 = "=R[-7]C+7";
                     }
                     for (int j = 0; j < 6; j++)
                     {
+                        //class code formula
                         worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (formulaRange + 1) + "C1,R[-" + (j + 1) + "]C)>" + j
                             + ",INDEX(Sheet1!R2C1:Sheet1!R" + (formulaRange + 1) + "C3,MATCH(R[-" + (j + 1) + "]C,Sheet1!R2C1:R" + (formulaRange + 1) + "C1,0)+" + j + ",2),\"\")";
+                        //assignment name formula
                         worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 2).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (formulaRange + 1) + "C1,R[-" + (j + 1) + "]C[-1])>" + j
                             + ",INDEX(Sheet1!R2C1:Sheet1!R" + (formulaRange + 1) + "C3,MATCH(R[-" + (j + 1) + "]C[-1],Sheet1!R2C1:R" + (formulaRange + 1) + "C1,0)+" + j + ",3),\"\")";
                     }
@@ -219,11 +208,11 @@ namespace OpenXML_Schedule_project
                 worksheet1.SheetView.FreezeRows(1);
                 worksheet2.SheetView.FreezeRows(1);
                 workbook.SaveAs(fileName);
+                MessageBox.Show("A spreadsheet calendar has been created at: " + fileName);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Build failed. File is likely open, but see console logs for details", "Error");
-                Console.WriteLine(ex.ToString());
+                MessageBox.Show("Build failed. Check if file is open and try again.\nDetails: " + ex.ToString(), "Error");
             }
         }
 
@@ -289,13 +278,12 @@ namespace OpenXML_Schedule_project
 
                 if (textFileOpen.ShowDialog() == DialogResult.OK)
                 {
-                    string textFileName = textFileOpen.FileName;
                     try
                     {
                         StreamReader inputText;
                         string textContents;
 
-                        inputText = File.OpenText(textFileName);
+                        inputText = File.OpenText(textFileOpen.FileName);
 
                         while ((textContents = inputText.ReadLine()) != null)
                         {
@@ -314,8 +302,7 @@ namespace OpenXML_Schedule_project
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid.", "Error");
-                        Console.WriteLine(ex.ToString());
+                        MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid.\nDetails: " + ex.ToString(), "Error");
                     }
                 }
             }
@@ -339,25 +326,15 @@ namespace OpenXML_Schedule_project
 
                 if (excelFileOpen.ShowDialog() == DialogResult.OK)
                 {
-                    string excelFileName = excelFileOpen.FileName;      // ***This value is saved for later overwriting/updating***
                     try
                     {
-                        IXLWorkbook sourceWbook = new XLWorkbook(excelFileName);
+                        IXLWorkbook sourceWbook = new XLWorkbook(excelFileOpen.FileName);
                         var ws1 = sourceWbook.Worksheet(1);
 
                         int lastRow = ws1.LastRowUsed().RowNumber();
-                        //string classID, assignment;
-                        //DateTime dueDate;
-
-                        int uploadDateRange = (int)(ws1.Cell(lastRow, 1).GetDateTime().ToOADate() - ws1.Cell(2, 1).GetDateTime().ToOADate() + 1);
-                        // MessageBox.Show("Range of this sheet is: " + uploadDateRange);  **Mostly for testing, may remove later**
 
                         for (int i = 0; i < lastRow - 1; i++)
                         {
-                            //dueDate = DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString());
-                            //classID = ws1.Cell(i + 2, 2).GetString();
-                            //assignment = ws1.Cell(i + 2, 3).GetString();
-
                             schedule.Add(new Assignment(
                                 DateTime.Parse(ws1.Cell(i + 2, 1).Value.ToString()),
                                 ws1.Cell(i + 2, 2).GetString(),
@@ -369,8 +346,7 @@ namespace OpenXML_Schedule_project
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid.", "Error");
-                        Console.WriteLine(ex.ToString());
+                        MessageBox.Show("Invalid entry. Make sure data format is correct and that the selected file is valid.\nDetails: " + ex.ToString(), "Error");
                     }
                 }
             }
