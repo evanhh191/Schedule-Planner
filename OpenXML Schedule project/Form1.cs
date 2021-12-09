@@ -10,6 +10,7 @@ namespace OpenXML_Schedule_project
     {
         private readonly List<Assignment> schedule = new List<Assignment>();      //hidden list of Assignment class, used to store info and to make strings for displayed list(lstAssignments).
 
+        //tod make textbox autofill from saved selection when typing
         public Form1()
         {
             InitializeComponent();
@@ -69,7 +70,7 @@ namespace OpenXML_Schedule_project
                 int dateRange = (int)(schedule[^1].Date.ToOADate() - schedule[0].Date.ToOADate() + 1); //converting to serialized date. Otherwise doesn't work. adding one to be inclusive of start date
 
                 DialogResult buildResult = MessageBox.Show("Are you ready to create an Excel calendar with the given data?" +
-                    "\nYour calendar will range from: " + schedule[0].Date.ToShortDateString() + "to: " + schedule[^1].Date.ToShortDateString()
+                    "\nYour calendar will range from: " + schedule[0].Date.ToShortDateString() + " to: " + schedule[^1].Date.ToShortDateString()
                          + "\nFor a date range of: " + dateRange + " day(s)" + "\nNumber of assignments: " + schedule.Count, "Build", MessageBoxButtons.YesNo);
                 if (buildResult == DialogResult.No) { }
                 else if (buildResult == DialogResult.Yes)       // ** THIS IS WHERE THE SPREADSHEET BUILDING WILL HAPPEN **
@@ -329,7 +330,7 @@ namespace OpenXML_Schedule_project
                     try
                     {
                         IXLWorkbook sourceWbook = new XLWorkbook(excelFileName);
-                        var ws1 = sourceWbook.Worksheet("Assignments List");
+                        var ws1 = sourceWbook.Worksheet(1);
 
                         int lastRow = ws1.LastRowUsed().RowNumber();
                         //string classID, assignment;
