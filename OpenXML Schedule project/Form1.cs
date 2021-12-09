@@ -189,7 +189,7 @@ namespace OpenXML_Schedule_project
                     }
                     for (int j = 0; j < 6; j++)
                     {
-                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).Style.Fill.SetBackgroundColor(XLColor.FromArgb(221, 235,247));                        
+                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).Style.Fill.SetBackgroundColor(XLColor.FromArgb(221, 235, 247));
                         worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-" + (j + 1) + "]C)>" + j + ",INDEX(Sheet1!R2C1:Sheet1!R235C3,MATCH(R[-" + (j + 1) + "]C,Sheet1!R2C1:R235C1,0)+" + j + ",2),\"\")";
                         worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 2).Style.Fill.SetBackgroundColor(XLColor.FromArgb(221, 235, 247));
                         worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 2).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-" + (j + 1) + "]C[-1])>" + j + ",INDEX(Sheet1!R2C1:Sheet1!R235C3,MATCH(R[-" + (j + 1) + "]C[-1],Sheet1!R2C1:R235C1,0)+" + j + ",3),\"\")";
