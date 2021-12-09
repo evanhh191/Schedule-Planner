@@ -169,25 +169,31 @@ namespace OpenXML_Schedule_project
                         .Fill.SetBackgroundColor(XLColor.LightGreen)
                         .Border.SetOutsideBorder(XLBorderStyleValues.Thin)
                         .NumberFormat.SetFormat("m/d");
+                    var currentCell = worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1);
                     if (first)
                     {
-                        worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).Value = schedule[i - dow].Date.ToShortDateString();
+                        currentCell.Value = schedule[i - dow].Date.ToShortDateString();
                         first = false;
                     }
                     else if (i / 7 < 1 || i / 7 == 1 && i % 7 != 0)
                     {
-                        worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "=RC[-2]+1";
+                        currentCell.FormulaR1C1 = "=RC[-2]+1";
                     }
                     else if (i / 7 == 1 && i % 7 == 0)
                     {
-                        worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "=R[-7]C[12] + 1";
+                        currentCell.FormulaR1C1 = "=R[-7]C[12] + 1";
                     }
                     else
                     {
-                        worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "=R[-7]C+7";
+                        currentCell.FormulaR1C1 = "=R[-7]C+7";
                     }
-                    worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 1).FormulaR1C1 = "COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-1]C)";
-                    //worksheet2.Cell(3 + rowIncrementer, 2 * (i % 7) + 2).FormulaR1C1 = "=Sheet1!R[-1]C[-3]";
+                    for (int j = 0; j < 6; j++)
+                    {
+                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).Style.Fill.SetBackgroundColor(XLColor.FromArgb(221, 235,247));                        
+                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 1).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-" + (j + 1) + "]C)>" + j + ",INDEX(Sheet1!R2C1:Sheet1!R235C3,MATCH(R[-" + (j + 1) + "]C,Sheet1!R2C1:R235C1,0)+" + j + ",2),\"\")";
+                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 2).Style.Fill.SetBackgroundColor(XLColor.FromArgb(221, 235, 247));
+                        worksheet2.Cell(3 + rowIncrementer + j, 2 * (i % 7) + 2).FormulaR1C1 = "IF(COUNTIF(Sheet1!R2C1:R" + (dateRange + 1) + "C1,R[-" + (j + 1) + "]C[-1])>" + j + ",INDEX(Sheet1!R2C1:Sheet1!R235C3,MATCH(R[-" + (j + 1) + "]C[-1],Sheet1!R2C1:R235C1,0)+" + j + ",3),\"\")";
+                    }
                 }
 
                 worksheet1.Columns().AdjustToContents();
@@ -211,7 +217,7 @@ namespace OpenXML_Schedule_project
         {
             for (int i = 0; i < 160; i++)
             {
-                schedule.Add(new Assignment(DateTime.Now.AddDays(i%40), "Test" + i % 4, "test assignment name" + i));
+                schedule.Add(new Assignment(DateTime.Now.AddDays(i % 40), "Test" + i % 4, "test assignment name" + i));
             }
             for (int i = 160; i < 234; i++)
             {
@@ -330,7 +336,7 @@ namespace OpenXML_Schedule_project
                         //DateTime dueDate;
 
                         int uploadDateRange = (int)(ws1.Cell(lastRow, 1).GetDateTime().ToOADate() - ws1.Cell(2, 1).GetDateTime().ToOADate() + 1);
-                       // MessageBox.Show("Range of this sheet is: " + uploadDateRange);  **Mostly for testing, may remove later**
+                        // MessageBox.Show("Range of this sheet is: " + uploadDateRange);  **Mostly for testing, may remove later**
 
                         for (int i = 0; i < lastRow - 1; i++)
                         {
