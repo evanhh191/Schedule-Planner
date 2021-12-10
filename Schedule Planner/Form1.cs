@@ -55,10 +55,11 @@ namespace Schedule_Planner
             MessageBox.Show("First choose a date using the Due Date button and enter the assignment name in the Assignment box. " +
                 "\n\nNext enter the class name in the Class box. You can reselect that class again later after adding an assignment to the list. " +
                 "\n\nAlternatively, if you have a pre-existing text or Excel file that is formatted correctly you may use the menu in the upper left hand corner to" +
-                " upload data into the list. " +
+                " upload data into the list.  " +
                 "\n\nWhen ready, you can click Add to add your assignment to the list or press the Enter key after you finish typing in the assignment name. " +
                 "\n\nIf you want to remove an item, click on the assignment in the list and click the Remove button. " +
-                "\n\nWhen you have filled out the list with your assignments, click Build to choose a file location for the program to generate the calendar-containing" +
+                "\n\nWhen you have filled out the list with your assignments, click Build to choose a file location for the program to generate the calendar-containing." +
+                "Please note that the Excel file must be sorted by date for the calendar to work." +
                 " Excel file. ", "Schedule Help");
         }
 
