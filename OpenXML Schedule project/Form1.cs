@@ -312,8 +312,9 @@ namespace OpenXML_Schedule_project
 
         private void MnuUploadExcel_Click(object sender, EventArgs e)
         {
-            DialogResult spreadsheetConfirmation = MessageBox.Show("Data must be stored in a similar format as as a created schedule (e.g headers of Dates/Class/Assignment). " +
-                "\n\n Do you want to continue? ", "Upload from Excel Files", MessageBoxButtons.YesNo);
+            DialogResult spreadsheetConfirmation = MessageBox.Show("Data must be stored in a similar format as as a created schedule (e.g headers of Dates/Class/Assignment). "
+                + "\nThe leftmost sheet must contain the list of dates."
+                + "\n\n Do you want to continue? ", "Upload from Excel Files", MessageBoxButtons.YesNo);
 
             if (spreadsheetConfirmation == DialogResult.Yes)
             {
