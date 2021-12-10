@@ -29,6 +29,7 @@ namespace OpenXML_Schedule_project
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lstAssignmentsBox = new System.Windows.Forms.ListBox();
             this.txtAssignment = new System.Windows.Forms.TextBox();
             this.dtpDueDate = new System.Windows.Forms.DateTimePicker();
@@ -41,7 +42,6 @@ namespace OpenXML_Schedule_project
             this.btnHelp = new System.Windows.Forms.Button();
             this.cmbClass = new System.Windows.Forms.ComboBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.button3 = new System.Windows.Forms.Button();
             this.menFileUpload = new System.Windows.Forms.MenuStrip();
             this.tsmFileUpload = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuUploadText = new System.Windows.Forms.ToolStripMenuItem();
@@ -155,16 +155,6 @@ namespace OpenXML_Schedule_project
             this.cmbClass.Sorted = true;
             this.cmbClass.TabIndex = 2;
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(78, 351);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "fill assignment list for testing";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.Button3_Click);
-            // 
             // menFileUpload
             // 
             this.menFileUpload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -186,6 +176,7 @@ namespace OpenXML_Schedule_project
             // 
             // mnuUploadText
             // 
+            this.mnuUploadText.Image = global::OpenXML_Schedule_project.Properties.Resources.txt_file_symbol;
             this.mnuUploadText.Name = "mnuUploadText";
             this.mnuUploadText.Size = new System.Drawing.Size(192, 22);
             this.mnuUploadText.Text = "Upload from Text File";
@@ -193,6 +184,7 @@ namespace OpenXML_Schedule_project
             // 
             // mnuUploadExcel
             // 
+            this.mnuUploadExcel.Image = global::OpenXML_Schedule_project.Properties.Resources.xl_file_symbol;
             this.mnuUploadExcel.Name = "mnuUploadExcel";
             this.mnuUploadExcel.Size = new System.Drawing.Size(192, 22);
             this.mnuUploadExcel.Text = "Upload from Excel File";
@@ -203,7 +195,6 @@ namespace OpenXML_Schedule_project
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.cmbClass);
             this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnBuild);
@@ -216,6 +207,7 @@ namespace OpenXML_Schedule_project
             this.Controls.Add(this.txtAssignment);
             this.Controls.Add(this.lstAssignmentsBox);
             this.Controls.Add(this.menFileUpload);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menFileUpload;
             this.Name = "Form1";
             this.Text = "Schedule Planner";
@@ -240,7 +232,6 @@ namespace OpenXML_Schedule_project
         private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.ComboBox cmbClass;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.MenuStrip menFileUpload;
         private System.Windows.Forms.ToolStripMenuItem tsmFileUpload;
         private System.Windows.Forms.ToolStripMenuItem mnuUploadText;

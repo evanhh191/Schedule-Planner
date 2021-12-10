@@ -1,7 +1,6 @@
 ﻿using ClosedXML.Excel;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -200,10 +199,10 @@ namespace OpenXML_Schedule_project
                             + ",INDEX(Sheet1!R2C1:Sheet1!R" + (formulaRange + 1) + "C3,MATCH(R[-" + (j + 1) + "]C[-1],Sheet1!R2C1:R" + (formulaRange + 1) + "C1,0)+" + j + ",3),\"\")";
                     }
                 }
-                worksheet1.Columns().AdjustToContents();
                 worksheet1.Rows().AdjustToContents();
-                worksheet2.Columns().AdjustToContents();
+                worksheet1.Columns().AdjustToContents();
                 worksheet2.Rows().AdjustToContents();
+                worksheet2.Columns().AdjustToContents();
 
                 worksheet1.SheetView.FreezeRows(1);
                 worksheet2.SheetView.FreezeRows(1);
@@ -216,6 +215,7 @@ namespace OpenXML_Schedule_project
             }
         }
 
+        /* Saving for later developement/quick enable fill button
         private void Button3_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 160; i++)
@@ -228,6 +228,7 @@ namespace OpenXML_Schedule_project
             }
             PrintToList();
         }
+        */
 
         private void TxtAssignment_KeyPress(object sender, KeyPressEventArgs e) // If txtAssignment is focus, pressing Enter will attempt to add current info to list
         {
