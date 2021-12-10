@@ -3,8 +3,9 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <RootNamespace>OpenXML_Schedule_project</RootNamespace>
+    <RootNamespace>Schedule_Planner</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
+    <Authors>E and R</Authors>
   </PropertyGroup>
 
   <ItemGroup>

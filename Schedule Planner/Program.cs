@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OpenXML_Schedule_project
+namespace Schedule_Planner
 {
     static class Program
     {

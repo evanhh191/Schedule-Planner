@@ -1,5 +1,5 @@
 ﻿
-namespace OpenXML_Schedule_project
+namespace Schedule_Planner
 {
     partial class Form1
     {
@@ -170,14 +170,14 @@ namespace OpenXML_Schedule_project
             this.tsmFileUpload.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuUploadText,
             this.mnuUploadExcel});
-            this.tsmFileUpload.Image = global::OpenXML_Schedule_project.Properties.Resources.upload_file_symbol;
+            this.tsmFileUpload.Image = global::Schedule_Planner.Properties.Resources.upload_file_symbol;
             this.tsmFileUpload.Name = "tsmFileUpload";
             this.tsmFileUpload.Size = new System.Drawing.Size(94, 20);
             this.tsmFileUpload.Text = "File Upload";
             // 
             // mnuUploadText
             // 
-            this.mnuUploadText.Image = global::OpenXML_Schedule_project.Properties.Resources.txt_file_symbol;
+            this.mnuUploadText.Image = global::Schedule_Planner.Properties.Resources.txt_file_symbol;
             this.mnuUploadText.Name = "mnuUploadText";
             this.mnuUploadText.Size = new System.Drawing.Size(192, 22);
             this.mnuUploadText.Text = "Upload from Text File";
@@ -185,7 +185,7 @@ namespace OpenXML_Schedule_project
             // 
             // mnuUploadExcel
             // 
-            this.mnuUploadExcel.Image = global::OpenXML_Schedule_project.Properties.Resources.xl_file_symbol;
+            this.mnuUploadExcel.Image = global::Schedule_Planner.Properties.Resources.xl_file_symbol;
             this.mnuUploadExcel.Name = "mnuUploadExcel";
             this.mnuUploadExcel.Size = new System.Drawing.Size(192, 22);
             this.mnuUploadExcel.Text = "Upload from Excel File";

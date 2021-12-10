@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace OpenXML_Schedule_project
+namespace Schedule_Planner
 {
     public partial class Form1 : Form
     {
