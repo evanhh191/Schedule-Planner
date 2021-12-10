@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenXML_Schedule_project
+namespace Schedule_Planner
 {
     public class Assignment
     {
