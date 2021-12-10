@@ -6,7 +6,7 @@
     <RootNamespace>Schedule_Planner</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>E and R</Authors>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>E and R.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
