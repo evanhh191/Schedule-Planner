@@ -234,6 +234,7 @@ namespace Schedule_Planner
         {
             if (e.KeyChar == '\r')
             {
+                e.Handled = true;
                 if (cmbClass.Text == "" || txtAssignment.Text == "") //more efficient than creating an object then checking
                 {
                     MessageBox.Show("Please make sure to fill out the Class and Assignment fields", "Error");
