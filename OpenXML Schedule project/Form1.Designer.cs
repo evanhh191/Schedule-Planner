@@ -170,8 +170,9 @@ namespace OpenXML_Schedule_project
             this.tsmFileUpload.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuUploadText,
             this.mnuUploadExcel});
+            this.tsmFileUpload.Image = global::OpenXML_Schedule_project.Properties.Resources.upload_file_symbol;
             this.tsmFileUpload.Name = "tsmFileUpload";
-            this.tsmFileUpload.Size = new System.Drawing.Size(78, 20);
+            this.tsmFileUpload.Size = new System.Drawing.Size(94, 20);
             this.tsmFileUpload.Text = "File Upload";
             // 
             // mnuUploadText
