@@ -63,9 +63,9 @@ namespace Schedule_Planner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap txt_file_symbol {
+        internal static System.Drawing.Bitmap import_file_symbol {
             get {
-                object obj = ResourceManager.GetObject("txt-file-symbol", resourceCulture);
+                object obj = ResourceManager.GetObject("import-file-symbol", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Schedule_Planner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap upload_file_symbol {
+        internal static System.Drawing.Bitmap txt_file_symbol {
             get {
-                object obj = ResourceManager.GetObject("upload-file-symbol", resourceCulture);
+                object obj = ResourceManager.GetObject("txt-file-symbol", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -55,7 +55,7 @@ namespace Schedule_Planner
             MessageBox.Show("First choose a date using the Due Date button and enter the assignment name in the Assignment box. " +
                 "\n\nNext enter the class name in the Class box. You can reselect that class again later after adding an assignment to the list. " +
                 "\n\nAlternatively, if you have a pre-existing text or Excel file that is formatted correctly you may use the menu in the upper left hand corner to" +
-                " upload data into the list.  " +
+                " import data into the list.  " +
                 "\n\nWhen ready, you can click Add to add your assignment to the list or press the Enter key after you finish typing in the assignment name. " +
                 "\n\nIf you want to remove an item, click on the assignment in the list and click the Remove button. " +
                 "\n\nWhen you have filled out the list with your assignments, click Build to choose a file location for the program to generate the calendar-containing." +
@@ -263,18 +263,18 @@ namespace Schedule_Planner
             }
         }
 
-        private void MnuUploadText_Click(object sender, EventArgs e)
+        private void MnuImportText_Click(object sender, EventArgs e)
         {
             DialogResult textConfirmation = MessageBox.Show("To use this function, the information must be stored in a similar format as the list (mm/dd/yyyy;class;assignnment;) in a text document. " +
-                "\n\n Do you want to continue? ", "Upload from Text Files", MessageBoxButtons.YesNo);
+                "\n\n Do you want to continue? ", "Import from Text Files", MessageBoxButtons.YesNo);
 
             if (textConfirmation == DialogResult.Yes)
             {
-                MessageBox.Show("Please select a text file to upload from", "Upload from Text Files");
+                MessageBox.Show("Please select a text file to import from", "Import from Text Files");
 
                 OpenFileDialog textFileOpen = new OpenFileDialog
                 {
-                    Title = "Upload from Text Files",
+                    Title = "Import from Text Files",
                     Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
                     InitialDirectory = @"C:\"
                 };
@@ -302,7 +302,7 @@ namespace Schedule_Planner
 
                         inputText.Close();
                         PrintToList();
-                        MessageBox.Show("Assignments from text file uploaded successfully.");
+                        MessageBox.Show("Assignments from text file imported successfully.");
                     }
                     catch (Exception ex)
                     {
@@ -312,19 +312,19 @@ namespace Schedule_Planner
             }
         }
 
-        private void MnuUploadExcel_Click(object sender, EventArgs e)
+        private void MnuImportExcel_Click(object sender, EventArgs e)
         {
             DialogResult spreadsheetConfirmation = MessageBox.Show("Data must be stored in a similar format as as a created schedule (e.g headers of Dates/Class/Assignment). "
                 + "\nThe leftmost sheet must contain the list of dates."
-                + "\n\n Do you want to continue? ", "Upload from Excel Files", MessageBoxButtons.YesNo);
+                + "\n\n Do you want to continue? ", "Import from Excel Files", MessageBoxButtons.YesNo);
 
             if (spreadsheetConfirmation == DialogResult.Yes)
             {
-                MessageBox.Show("Please select an Excel file to upload from", "Upload from Excel files");
+                MessageBox.Show("Please select an Excel file to import from", "Import from Excel files");
 
                 OpenFileDialog excelFileOpen = new OpenFileDialog
                 {
-                    Title = "Upload from Excel file",
+                    Title = "Import from Excel file",
                     Filter = "xlsx files (*.xlsx)|*.xlsx|All files (*.*)|*.*",
                     InitialDirectory = @"C:\"
                 };
@@ -349,7 +349,7 @@ namespace Schedule_Planner
                         }
                         PrintToList();
                         sourceWbook.Dispose();
-                        MessageBox.Show("Assignments from excel file uploaded successfully.", "Upload from Excel files");
+                        MessageBox.Show("Assignments from excel file imported successfully.", "Import from Excel files");
                     }
                     catch (Exception ex)
                     {

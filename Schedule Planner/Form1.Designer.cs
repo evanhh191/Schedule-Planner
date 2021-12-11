@@ -42,11 +42,11 @@ namespace Schedule_Planner
             this.btnHelp = new System.Windows.Forms.Button();
             this.cmbClass = new System.Windows.Forms.ComboBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.menFileUpload = new System.Windows.Forms.MenuStrip();
-            this.tsmFileUpload = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuUploadText = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuUploadExcel = new System.Windows.Forms.ToolStripMenuItem();
-            this.menFileUpload.SuspendLayout();
+            this.menFileImport = new System.Windows.Forms.MenuStrip();
+            this.tsmFileImport = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuImportText = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuImportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.menFileImport.SuspendLayout();
             this.SuspendLayout();
             // 
             // lstAssignmentsBox
@@ -155,41 +155,41 @@ namespace Schedule_Planner
             this.cmbClass.Sorted = true;
             this.cmbClass.TabIndex = 2;
             // 
-            // menFileUpload
+            // menFileImport
             // 
-            this.menFileUpload.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmFileUpload});
-            this.menFileUpload.Location = new System.Drawing.Point(0, 0);
-            this.menFileUpload.Name = "menFileUpload";
-            this.menFileUpload.Size = new System.Drawing.Size(800, 24);
-            this.menFileUpload.TabIndex = 10;
-            this.menFileUpload.Text = "menuStrip1";
+            this.menFileImport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmFileImport});
+            this.menFileImport.Location = new System.Drawing.Point(0, 0);
+            this.menFileImport.Name = "menFileImport";
+            this.menFileImport.Size = new System.Drawing.Size(800, 24);
+            this.menFileImport.TabIndex = 10;
+            this.menFileImport.Text = "menuStrip1";
             // 
-            // tsmFileUpload
+            // tsmFileImport
             // 
-            this.tsmFileUpload.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuUploadText,
-            this.mnuUploadExcel});
-            this.tsmFileUpload.Image = global::Schedule_Planner.Properties.Resources.upload_file_symbol;
-            this.tsmFileUpload.Name = "tsmFileUpload";
-            this.tsmFileUpload.Size = new System.Drawing.Size(94, 20);
-            this.tsmFileUpload.Text = "File Upload";
+            this.tsmFileImport.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuImportText,
+            this.mnuImportExcel});
+            this.tsmFileImport.Image = global::Schedule_Planner.Properties.Resources.import_file_symbol;
+            this.tsmFileImport.Name = "tsmFileImport";
+            this.tsmFileImport.Size = new System.Drawing.Size(92, 20);
+            this.tsmFileImport.Text = "File Import";
             // 
-            // mnuUploadText
+            // mnuImportText
             // 
-            this.mnuUploadText.Image = global::Schedule_Planner.Properties.Resources.txt_file_symbol;
-            this.mnuUploadText.Name = "mnuUploadText";
-            this.mnuUploadText.Size = new System.Drawing.Size(192, 22);
-            this.mnuUploadText.Text = "Upload from Text File";
-            this.mnuUploadText.Click += new System.EventHandler(this.MnuUploadText_Click);
+            this.mnuImportText.Image = global::Schedule_Planner.Properties.Resources.txt_file_symbol;
+            this.mnuImportText.Name = "mnuImportText";
+            this.mnuImportText.Size = new System.Drawing.Size(190, 22);
+            this.mnuImportText.Text = "Import from Text File";
+            this.mnuImportText.Click += new System.EventHandler(this.MnuImportText_Click);
             // 
-            // mnuUploadExcel
+            // mnuImportExcel
             // 
-            this.mnuUploadExcel.Image = global::Schedule_Planner.Properties.Resources.xl_file_symbol;
-            this.mnuUploadExcel.Name = "mnuUploadExcel";
-            this.mnuUploadExcel.Size = new System.Drawing.Size(192, 22);
-            this.mnuUploadExcel.Text = "Upload from Excel File";
-            this.mnuUploadExcel.Click += new System.EventHandler(this.MnuUploadExcel_Click);
+            this.mnuImportExcel.Image = global::Schedule_Planner.Properties.Resources.xl_file_symbol;
+            this.mnuImportExcel.Name = "mnuImportExcel";
+            this.mnuImportExcel.Size = new System.Drawing.Size(190, 22);
+            this.mnuImportExcel.Text = "Import from Excel File";
+            this.mnuImportExcel.Click += new System.EventHandler(this.MnuImportExcel_Click);
             // 
             // Form1
             // 
@@ -207,13 +207,13 @@ namespace Schedule_Planner
             this.Controls.Add(this.dtpDueDate);
             this.Controls.Add(this.txtAssignment);
             this.Controls.Add(this.lstAssignmentsBox);
-            this.Controls.Add(this.menFileUpload);
+            this.Controls.Add(this.menFileImport);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menFileUpload;
+            this.MainMenuStrip = this.menFileImport;
             this.Name = "Form1";
             this.Text = "Schedule Planner";
-            this.menFileUpload.ResumeLayout(false);
-            this.menFileUpload.PerformLayout();
+            this.menFileImport.ResumeLayout(false);
+            this.menFileImport.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -233,10 +233,10 @@ namespace Schedule_Planner
         private System.Windows.Forms.Button btnHelp;
         private System.Windows.Forms.ComboBox cmbClass;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.MenuStrip menFileUpload;
-        private System.Windows.Forms.ToolStripMenuItem tsmFileUpload;
-        private System.Windows.Forms.ToolStripMenuItem mnuUploadText;
-        private System.Windows.Forms.ToolStripMenuItem mnuUploadExcel;
+        private System.Windows.Forms.MenuStrip menFileImport;
+        private System.Windows.Forms.ToolStripMenuItem tsmFileImport;
+        private System.Windows.Forms.ToolStripMenuItem mnuImportText;
+        private System.Windows.Forms.ToolStripMenuItem mnuImportExcel;
     }
 }
 
