@@ -6,8 +6,8 @@
     <RootNamespace>Schedule_Planner</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <Authors>E and R</Authors>
-    <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>E and R.pfx</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Schedule Planner_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
   </PropertyGroup>
 
