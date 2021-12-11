@@ -200,6 +200,7 @@ namespace Schedule_Planner
                             + ",INDEX(Sheet1!R2C1:Sheet1!R" + (formulaRange + 1) + "C3,MATCH(R[-" + (j + 1) + "]C[-1],Sheet1!R2C1:R" + (formulaRange + 1) + "C1,0)+" + j + ",3),\"\")";
                     }
                 }
+                //autofit
                 worksheet1.Rows().AdjustToContents();
                 worksheet1.Columns().AdjustToContents();
                 worksheet2.Rows().AdjustToContents();
