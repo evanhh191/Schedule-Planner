@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Schedule_Planner</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
-    <Authors>E and R</Authors>
+    <Authors>DUSTY\Evan</Authors>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Schedule Planner_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
     <DelaySign>false</DelaySign>
@@ -21,7 +21,7 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
+    </Compile>    
   </ItemGroup>
 
   <ItemGroup>
