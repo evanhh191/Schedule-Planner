@@ -75,7 +75,6 @@ namespace Schedule_Planner
             this.dtpDueDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpDueDate.Location = new System.Drawing.Point(26, 61);
             this.dtpDueDate.Name = "dtpDueDate";
-            this.dtpDueDate.ShowUpDown = true;
             this.dtpDueDate.Size = new System.Drawing.Size(119, 23);
             this.dtpDueDate.TabIndex = 1;
             // 
