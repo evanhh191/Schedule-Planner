@@ -60,6 +60,7 @@ namespace Schedule_Planner
             this.lstAssignmentsBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lstAssignmentsBox.Size = new System.Drawing.Size(731, 244);
             this.lstAssignmentsBox.TabIndex = 4;
+            this.lstAssignmentsBox.TabStop = false;
             // 
             // txtAssignment
             // 
@@ -74,6 +75,7 @@ namespace Schedule_Planner
             this.dtpDueDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpDueDate.Location = new System.Drawing.Point(26, 61);
             this.dtpDueDate.Name = "dtpDueDate";
+            this.dtpDueDate.ShowUpDown = true;
             this.dtpDueDate.Size = new System.Drawing.Size(119, 23);
             this.dtpDueDate.TabIndex = 1;
             // 
@@ -110,6 +112,7 @@ namespace Schedule_Planner
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(139, 46);
             this.btnAdd.TabIndex = 5;
+            this.btnAdd.TabStop = false;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
@@ -120,6 +123,7 @@ namespace Schedule_Planner
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(139, 46);
             this.btnRemove.TabIndex = 6;
+            this.btnRemove.TabStop = false;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
@@ -130,6 +134,7 @@ namespace Schedule_Planner
             this.btnBuild.Name = "btnBuild";
             this.btnBuild.Size = new System.Drawing.Size(139, 46);
             this.btnBuild.TabIndex = 7;
+            this.btnBuild.TabStop = false;
             this.btnBuild.Text = "Build";
             this.btnBuild.UseVisualStyleBackColor = false;
             this.btnBuild.Click += new System.EventHandler(this.BtnBuild_Click);
@@ -140,6 +145,7 @@ namespace Schedule_Planner
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(139, 46);
             this.btnHelp.TabIndex = 8;
+            this.btnHelp.TabStop = false;
             this.btnHelp.Text = "Help";
             this.btnHelp.UseVisualStyleBackColor = true;
             this.btnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
