@@ -4,9 +4,11 @@ namespace Schedule_Planner
 {
     public class Assignment
     {
-        private DateTime _date;
-        private string _classCode;
-        private string _assignmentName;
+        public DateTime StartDate { get; set; }
+        public DateTime Date { get; set; }
+
+        public string ClassCode { get; set; }
+        public string AssignmentName { get; set; }
 
         public Assignment(DateTime date, string cc, string an)
         {
@@ -15,40 +17,12 @@ namespace Schedule_Planner
             this.AssignmentName = an;
         }
 
-        public DateTime Date
+        public Assignment(DateTime startDate, DateTime date, string cc, string an)
         {
-            get
-            {
-                return this._date;
-            }
-            set
-            {
-                this._date = value;
-            }
-        }
-
-        public string ClassCode
-        {
-            get
-            {
-                return this._classCode;
-            }
-            set
-            {
-                this._classCode = value;
-            }
-        }
-
-        public string AssignmentName
-        {
-            get
-            {
-                return this._assignmentName;
-            }
-            set
-            {
-                this._assignmentName = value;
-            }
+            this.StartDate = startDate;
+            this.Date = date;
+            this.ClassCode = cc;
+            this.AssignmentName = an;
         }
     }
 }

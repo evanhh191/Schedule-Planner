@@ -43,9 +43,14 @@ namespace Schedule_Planner
             this.cmbClass = new System.Windows.Forms.ComboBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.menFileImport = new System.Windows.Forms.MenuStrip();
+            this.tsmMode = new System.Windows.Forms.ToolStripMenuItem();
+            this.dueDatedefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startAndDueDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmFileImport = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuImportText = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuImportExcel = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblStartDate = new System.Windows.Forms.Label();
+            this.dtpStartDate = new System.Windows.Forms.DateTimePicker();
             this.menFileImport.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,7 +64,8 @@ namespace Schedule_Planner
             this.lstAssignmentsBox.ScrollAlwaysVisible = true;
             this.lstAssignmentsBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lstAssignmentsBox.Size = new System.Drawing.Size(731, 244);
-            this.lstAssignmentsBox.TabIndex = 4;
+            this.lstAssignmentsBox.TabIndex = 11;
+            this.lstAssignmentsBox.TabStop = false;
             // 
             // txtAssignment
             // 
@@ -110,6 +116,7 @@ namespace Schedule_Planner
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(139, 46);
             this.btnAdd.TabIndex = 5;
+            this.btnAdd.TabStop = false;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
@@ -120,6 +127,7 @@ namespace Schedule_Planner
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(139, 46);
             this.btnRemove.TabIndex = 6;
+            this.btnRemove.TabStop = false;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.BtnRemove_Click);
@@ -130,6 +138,7 @@ namespace Schedule_Planner
             this.btnBuild.Name = "btnBuild";
             this.btnBuild.Size = new System.Drawing.Size(139, 46);
             this.btnBuild.TabIndex = 7;
+            this.btnBuild.TabStop = false;
             this.btnBuild.Text = "Build";
             this.btnBuild.UseVisualStyleBackColor = false;
             this.btnBuild.Click += new System.EventHandler(this.BtnBuild_Click);
@@ -140,6 +149,7 @@ namespace Schedule_Planner
             this.btnHelp.Name = "btnHelp";
             this.btnHelp.Size = new System.Drawing.Size(139, 46);
             this.btnHelp.TabIndex = 8;
+            this.btnHelp.TabStop = false;
             this.btnHelp.Text = "Help";
             this.btnHelp.UseVisualStyleBackColor = true;
             this.btnHelp.Click += new System.EventHandler(this.BtnHelp_Click);
@@ -158,12 +168,37 @@ namespace Schedule_Planner
             // menFileImport
             // 
             this.menFileImport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmMode,
             this.tsmFileImport});
             this.menFileImport.Location = new System.Drawing.Point(0, 0);
             this.menFileImport.Name = "menFileImport";
             this.menFileImport.Size = new System.Drawing.Size(800, 24);
             this.menFileImport.TabIndex = 10;
             this.menFileImport.Text = "menuStrip1";
+            // 
+            // tsmMode
+            // 
+            this.tsmMode.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dueDatedefaultToolStripMenuItem,
+            this.startAndDueDateToolStripMenuItem});
+            this.tsmMode.Name = "tsmMode";
+            this.tsmMode.Size = new System.Drawing.Size(50, 20);
+            this.tsmMode.Text = "Mode";
+            // 
+            // dueDatedefaultToolStripMenuItem
+            // 
+            this.dueDatedefaultToolStripMenuItem.Enabled = false;
+            this.dueDatedefaultToolStripMenuItem.Name = "dueDatedefaultToolStripMenuItem";
+            this.dueDatedefaultToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.dueDatedefaultToolStripMenuItem.Text = "Due Date (default)";
+            this.dueDatedefaultToolStripMenuItem.Click += new System.EventHandler(this.DueDatedefaultToolStripMenuItem_Click);
+            // 
+            // startAndDueDateToolStripMenuItem
+            // 
+            this.startAndDueDateToolStripMenuItem.Name = "startAndDueDateToolStripMenuItem";
+            this.startAndDueDateToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.startAndDueDateToolStripMenuItem.Text = "Start and Due Date";
+            this.startAndDueDateToolStripMenuItem.Click += new System.EventHandler(this.StartAndDueDateToolStripMenuItem_Click);
             // 
             // tsmFileImport
             // 
@@ -191,11 +226,33 @@ namespace Schedule_Planner
             this.mnuImportExcel.Text = "Import from Excel File";
             this.mnuImportExcel.Click += new System.EventHandler(this.MnuImportExcel_Click);
             // 
+            // lblStartDate
+            // 
+            this.lblStartDate.AutoSize = true;
+            this.lblStartDate.Location = new System.Drawing.Point(26, 43);
+            this.lblStartDate.Name = "lblStartDate";
+            this.lblStartDate.Size = new System.Drawing.Size(58, 15);
+            this.lblStartDate.TabIndex = 12;
+            this.lblStartDate.Text = "Start Date";
+            this.lblStartDate.Visible = false;
+            // 
+            // dtpStartDate
+            // 
+            this.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpStartDate.Location = new System.Drawing.Point(26, 61);
+            this.dtpStartDate.Name = "dtpStartDate";
+            this.dtpStartDate.Size = new System.Drawing.Size(119, 23);
+            this.dtpStartDate.TabIndex = 4;
+            this.dtpStartDate.TabStop = false;
+            this.dtpStartDate.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.lblStartDate);
+            this.Controls.Add(this.dtpStartDate);
             this.Controls.Add(this.cmbClass);
             this.Controls.Add(this.btnHelp);
             this.Controls.Add(this.btnBuild);
@@ -237,6 +294,11 @@ namespace Schedule_Planner
         private System.Windows.Forms.ToolStripMenuItem tsmFileImport;
         private System.Windows.Forms.ToolStripMenuItem mnuImportText;
         private System.Windows.Forms.ToolStripMenuItem mnuImportExcel;
+        private System.Windows.Forms.ToolStripMenuItem tsmMode;
+        private System.Windows.Forms.ToolStripMenuItem dueDatedefaultToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem startAndDueDateToolStripMenuItem;
+        private System.Windows.Forms.Label lblStartDate;
+        private System.Windows.Forms.DateTimePicker dtpStartDate;
     }
 }
 
