@@ -23,7 +23,8 @@ namespace Schedule_Planner
             }
             else
             {
-                schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
+                if (dueDatedefaultToolStripMenuItem.Enabled) schedule.Add(new Assignment(dtpStartDate.Value.Date, dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
+                else schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
                 if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
 
                 PrintToList();
@@ -88,16 +89,23 @@ namespace Schedule_Planner
 
                         if (locationResult == DialogResult.OK)
                         {
-                            BuildSpreadsheet(fileName, dateRange);
+                            BuildSpreadsheet(true, fileName, dateRange, (schedule) => schedule.Date);
+                            if (dueDatedefaultToolStripMenuItem.Enabled)
+                            {
+                                schedule.Sort((a, b) => 2 * DateTime.Compare(a.StartDate, b.StartDate) + a.ClassCode.CompareTo(b.ClassCode));
+                                int startDateRange = (int)(schedule[^1].StartDate.ToOADate() - schedule[0].StartDate.ToOADate() + 1);
+                                BuildSpreadsheet(false, fileName, startDateRange, (schedule) => schedule.StartDate);
+                            }
                         }
                     }
                 }
             }
         }
 
-        private void BuildSpreadsheet(string fileName, int dateRange) //builds the spreadsheet
+        private void BuildSpreadsheet(bool isFirstSchedule, string fileName, int dateRange, Func<Assignment, DateTime> dateToBeUsed) //builds the spreadsheet
         {
-            fileName += "\\Schedule.xlsx";
+            if (isFirstSchedule) fileName += "\\Schedule.xlsx";
+            else fileName += "\\Schedule2.xlsx";
             try
             {
                 IXLWorkbook workbook = new XLWorkbook();
@@ -121,13 +129,23 @@ namespace Schedule_Planner
                 worksheet1.Cell("B1").Value = "Class";
                 worksheet1.Cell("c1").Value = "Work";
 
+                int pos = 0;
+                int loops = schedule.Count;
                 //filling cells with assignments
-                for (int i = 0; i < schedule.Count; i++)
+                for (int i = 0; i < loops; i++, pos++)
                 {
-                    worksheet1.Cell(i + 2, 1).Value = schedule[i].Date.ToString("d");
+                    if (dueDatedefaultToolStripMenuItem.Enabled && !isFirstSchedule)
+                    {
+                        while (DateTime.Compare(schedule[pos].StartDate, schedule[pos].Date) == 0)
+                        {
+                            pos++;
+                            loops--;
+                        }
+                    }
+                    worksheet1.Cell(i + 2, 1).Value = dateToBeUsed(schedule[pos]).ToString("d");
                     worksheet1.Cell(i + 2, 1).Style.NumberFormat.Format = "d-mmm";
-                    worksheet1.Cell(i + 2, 2).Value = schedule[i].ClassCode;
-                    worksheet1.Cell(i + 2, 3).Value = schedule[i].AssignmentName;
+                    worksheet1.Cell(i + 2, 2).Value = schedule[pos].ClassCode;
+                    worksheet1.Cell(i + 2, 3).Value = schedule[pos].AssignmentName;
                 }
 
                 // Add filters
@@ -146,9 +164,9 @@ namespace Schedule_Planner
                 }
 
                 int formulaRange = schedule.Count;
-                Boolean first = true;
+                bool isFirst = true;
 
-                for (int i = (int)schedule[0].Date.DayOfWeek; i < dateRange + (int)schedule[0].Date.DayOfWeek; i++)
+                for (int i = (int)dateToBeUsed(schedule[0]).DayOfWeek; i < dateRange + (int)dateToBeUsed(schedule[0]).DayOfWeek; i++)
                 {
                     //(i/7) * 7 counts the number of weeks so far. ex day 6, which is a saturday, is week 0 because for ints, 6/7 = 0
                     int rowIncrementer = (i / 7) * 7;
@@ -170,10 +188,10 @@ namespace Schedule_Planner
                         .Style.Border.SetRightBorder(XLBorderStyleValues.Thin);
                     var currentCell = worksheet2.Cell(2 + rowIncrementer, 2 * (i % 7) + 1);
                     //first date that other dates are based off of
-                    if (first)
+                    if (isFirst)
                     {
-                        currentCell.Value = schedule[i - (int)schedule[0].Date.DayOfWeek].Date.ToShortDateString();
-                        first = false;
+                        currentCell.Value = dateToBeUsed(schedule[i - (int)dateToBeUsed(schedule[0]).DayOfWeek]).ToShortDateString();
+                        isFirst = false;
                     }
                     //dates for first and second weeks, aside from first days in week
                     else if (i / 7 < 1 || i / 7 == 1 && i % 7 != 0)
@@ -243,7 +261,8 @@ namespace Schedule_Planner
                 }
                 else
                 {
-                    schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
+                    if (dueDatedefaultToolStripMenuItem.Enabled) schedule.Add(new Assignment(dtpStartDate.Value.Date, dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
+                    else schedule.Add(new Assignment(dtpDueDate.Value.Date, cmbClass.Text, txtAssignment.Text));
                     if (!cmbClass.Items.Contains(cmbClass.Text)) cmbClass.Items.Add(cmbClass.Text);
 
                     PrintToList();
@@ -257,10 +276,19 @@ namespace Schedule_Planner
         {
             schedule.Sort((a, b) => 2 * DateTime.Compare(a.Date, b.Date) + a.ClassCode.CompareTo(b.ClassCode)); // less memory usage sorting in-place than creating another list to sort
             lstAssignmentsBox.Items.Clear();
-
-            foreach (var item in schedule)
+            if (dueDatedefaultToolStripMenuItem.Enabled)
             {
-                lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
+                foreach (var item in schedule)
+                {
+                    lstAssignmentsBox.Items.Add(item.StartDate.ToString("MM/dd/yyyy").PadRight(16) + item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
+                }
+            }
+            else
+            {
+                foreach (var item in schedule)
+                {
+                    lstAssignmentsBox.Items.Add(item.Date.ToString("MM/dd/yyyy").PadRight(15) + item.ClassCode.PadRight(26) + item.AssignmentName.PadRight(55));
+                }
             }
         }
 
@@ -358,6 +386,64 @@ namespace Schedule_Planner
                     }
                 }
             }
+        }
+
+        private void StartAndDueDateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!(schedule.Count == 0))
+            {
+                DialogResult changeMode = MessageBox.Show("Changing modes will wipe the current assignment list. Continue?", "Change Mode", MessageBoxButtons.OKCancel);
+                if (changeMode == DialogResult.OK) ChangeModeSAD();
+            }
+            else ChangeModeSAD();
+        }
+
+        private void ChangeModeSAD()
+        {
+            schedule.Clear();
+            lstAssignmentsBox.Items.Clear();
+            int shift = 125; // width of date box
+            txtAssignment.Width -= shift;
+            txtAssignment.Location = new System.Drawing.Point(txtAssignment.Location.X + shift, txtAssignment.Location.Y);
+            lblAssignment.Location = new System.Drawing.Point(lblAssignment.Location.X + shift, lblAssignment.Location.Y);
+            cmbClass.Location = new System.Drawing.Point(cmbClass.Location.X + shift, cmbClass.Location.Y);
+            lblClass.Location = new System.Drawing.Point(lblClass.Location.X + shift, lblClass.Location.Y);
+            dtpDueDate.Location = new System.Drawing.Point(dtpDueDate.Location.X + shift, dtpDueDate.Location.Y);
+            lblDueDate.Location = new System.Drawing.Point(lblDueDate.Location.X + shift, lblDueDate.Location.Y);
+            lblStartDate.Visible = true;
+            dtpStartDate.Visible = true;
+            dtpStartDate.TabStop = true;
+            startAndDueDateToolStripMenuItem.Enabled = false;
+            dueDatedefaultToolStripMenuItem.Enabled = true;
+        }
+
+        private void DueDatedefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!(schedule.Count == 0))
+            {
+                DialogResult changeMode = MessageBox.Show("You can keep the current list, but you cannot return to this mode without wiping the assignment list. Continue?", "Change Mode", MessageBoxButtons.OKCancel);
+                if (changeMode == DialogResult.OK) ChangeModeDefault();
+            }
+            else ChangeModeDefault();
+        }
+
+        private void ChangeModeDefault()
+        {
+            int shift = 125;
+            txtAssignment.Width += shift;
+            txtAssignment.Location = new System.Drawing.Point(txtAssignment.Location.X - shift, txtAssignment.Location.Y);
+            lblAssignment.Location = new System.Drawing.Point(lblAssignment.Location.X - shift, lblAssignment.Location.Y);
+            cmbClass.Location = new System.Drawing.Point(cmbClass.Location.X - shift, cmbClass.Location.Y);
+            lblClass.Location = new System.Drawing.Point(lblClass.Location.X - shift, lblClass.Location.Y);
+            dtpDueDate.Location = new System.Drawing.Point(dtpDueDate.Location.X - shift, dtpDueDate.Location.Y);
+            lblDueDate.Location = new System.Drawing.Point(lblDueDate.Location.X - shift, lblDueDate.Location.Y);
+            lblStartDate.Visible = false;
+            dtpStartDate.Visible = false;
+            dtpStartDate.TabStop = false;
+            dtpDueDate.Focus();
+            startAndDueDateToolStripMenuItem.Enabled = true;
+            dueDatedefaultToolStripMenuItem.Enabled = false;
+            PrintToList();
         }
     }
 }
